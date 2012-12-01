@@ -29,6 +29,18 @@ def distance(point1, point2):
 	km = 6371 * c
 	return km
 
+def multikeysort(items, columns):
+    from operator import itemgetter
+    comparers = [ ((itemgetter(col[1:].strip()), -1) if col.startswith('-') else (itemgetter(col.strip()), 1)) for col in columns]  
+    def comparer(left, right):
+        for fn, mult in comparers:
+            result = cmp(fn(left), fn(right))
+            if result:
+                return mult * result
+        else:
+            return 0
+    return sorted(items, cmp=comparer)
+
 # home root controller
 @app.route('/')
 def index():
@@ -60,8 +72,9 @@ def search_toilet(latlong_string):
 			toilet_detail['toilet_type'] = toilet.toilet_type
 			toilet_detail['added_on'] = toilet.added_on.isoformat()
 			toilet_detail['user_id'] = toilet.user_id
-			toilet_detail['distance'] = math.floor(delta*100)
+			toilet_detail['distance'] = int(math.floor(delta*100))
 			toilets.append(toilet_detail)
+	toilets = multikeysort(toilets, ['distance', '-toilet_current_rating'])
 	result = json.dumps(dict(toilets=toilets))
 	return result
 
