@@ -3,19 +3,18 @@
     {% block content %}
 		<h1>List of Toilet Entries.</h1>
         {% if toilet_entries %}
-		<table class="table-striped" >
+		<table class="table table-bordered" >
 			<thead>
 				<tr>
-					<td><b>ID</td>
-					<td><b>Name</b></td>
-					<td><b>Lat</b></td>
-					<td><b>Long</b></td>
-					<td><b>Address</b></td>
-					<td><b>Rating</b></td>
-					<td><b>Added On</b></td>
-					<td><b>User_Id</b></td>
-					<td><b>&nbsp;</td>
-					<td><b>&nbsp;</td>
+					<th>ID</th>
+					<th>Name</th>
+					<th>Latitude</th>
+					<th>Longitude</th>
+					<th>Address</th>
+					<th>Rating</th>
+					<th>Added On</th>
+					<th>User</th>
+					<th colspan="2">&nbsp;</th>
 				</tr>
 			</thead>
 			

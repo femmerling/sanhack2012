@@ -1,0 +1,1 @@
+{"toilets": [{"toilet_type": null, "toilet_long": "106.82973", "user_id": null, "toilet_id": 1, "toilet_address": "Universitas Indonesia", "toilet_name": "Fasilkom Gedung B Lt 2", "toilet_current_rating": null, "toilet_lat": "-6.36519", "added_on": "2012-12-01T16:49:53"}]}

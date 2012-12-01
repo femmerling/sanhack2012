@@ -1,5 +1,15 @@
 {% extends "base.html" %}
     {% block title %}Cablet{% endblock %}
+    {% block sidebar %}
+    <table class="table table-hover" data-bind="foreach: toilets">
+        <tr>
+        <td>
+            <span data-bind="text: toilet_name"></span>
+            <span data-bind="text: toilet_address"></span>
+        </td>
+        </tr>
+    </table>
+    {% endblock %}
     {% block content %}
     <div id="content">
     	<h1>Toilet Finder</h1>
@@ -8,7 +18,22 @@
         <article>
       <p>Finding your location: <span id="status">checking...</span></p>
     </article>
-        <script type="text/javascript">
+        
+        
+        <p>Entry for Sanitation Hackathon 2012, Jakarta, Indonesia by <a target="_blank" href="http://twitter.com/femmerling">@femmerling</a> (Fauzan Emmerling), <a target="_blank" href="http://twitter.com/ksetyadi">@ksetyadi</a> (Kristiono Setyadi), and <a target="_blank" href="http://twitter.com/pebaryan">@pebaryan</a> (Peb Ruswono Aryan). </p>
+       <footer>
+      <p id="disclaimer">powered by <a target="_blank" href="https://github.com/femmerling/EmeraldBox/">EmeraldBox</a>, an open source python web framework by <a target="_blank" href="http://www.emfeld.com">Fauzan Emmerling</a>.</p>
+      </footer>
+    </div>
+  {% endblock %}
+  {% block addon %}
+  <script type="text/javascript">
+            var viewmodel = {
+                toilets: ko.observableArray([])
+            };
+            
+            ko.applyBindings(viewmodel);
+            
             function success(position) {
               var s = document.querySelector('#status');
               
@@ -16,6 +41,8 @@
                 // not sure why we're hitting this twice in FF, I think it's to do with a cached result coming back    
                 return;
               }
+              
+              
               
               s.innerHTML = "found you!";
               s.className = 'success';
@@ -42,6 +69,10 @@
                   map: map, 
                   title:"You are here! (at least within a "+position.coords.accuracy+" meter radius)"
               });
+              
+              $.getJSON('/search/'+position.coords.latitude+","+position.coords.longitude, function(data){
+                    viewmodel.toilets(data.toilets)
+              })
             }
 
             function error(msg) {
@@ -51,17 +82,13 @@
               
               // console.log(arguments);
             }
-
+            
             if (navigator.geolocation) {
               navigator.geolocation.getCurrentPosition(success, error);
             } else {
               error('not supported');
             }
+            
+            
         </script>
-        
-        <p>Entry for Sanitation Hackathon 2012, Jakarta, Indonesia by <a target="_blank" href="http://twitter.com/femmerling">@femmerling</a> (Fauzan Emmerling), <a target="_blank" href="http://twitter.com/ksetyadi">@ksetyadi</a> (Kristiono Setyadi), and <a target="_blank" href="http://twitter.com/pebaryan">@pebaryan</a> (Peb Ruswono Aryan). </p>
-       <footer>
-      <p id="disclaimer">powered by <a target="_blank" href="https://github.com/femmerling/EmeraldBox/">EmeraldBox</a>, an open source python web framework by <a target="_blank" href="http://www.emfeld.com">Fauzan Emmerling</a>.</p>
-      </footer>
-    </div>
   {% endblock %}
