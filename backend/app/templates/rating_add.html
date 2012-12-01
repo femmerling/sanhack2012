@@ -1,0 +1,26 @@
+<!doctype html>
+<html>	<head><title>Rating Entries</title></head>
+	<body>
+		<h1>Add new Rating Entries.</h1>
+		<form name="rating_add" method="post" action="/rating/create/">
+		<table>
+				<tr>
+					<td>User_Id:</td>
+					<td><input type="text" name="user_id"/></td>
+				</tr>
+				<tr>
+					<td>Overall_Rating:</td>
+					<td><input type="text" name="overall_rating"/></td>
+				</tr>
+				<tr>
+					<td>Rated_On:</td>
+					<td><input type="text" name="rated_on"/></td>
+				</tr>
+				<tr>
+					<td><input type="submit" name="submit" value="Add Entry"/></td>
+					<td> </td>
+				</tr>
+		</table>
+		</form>
+	</body>
+</html>

@@ -1,6 +1,6 @@
 # do not change or move the following lines if you still want to use the box.py auto generator
 from app import app, db
-from models import Toilet, User, Facility
+from models import Toilet, User, Facility, Rating
 
 # you can freely change the lines below
 from flask import render_template
@@ -387,4 +387,87 @@ def facility_delete_controller(id):
 	db.session.commit()
 
 	return 'data deletion successful <a href="/facility/">back to Entries</a>'
+
+
+
+########### rating data model controllers area ###########
+
+@app.route('/data/rating/')
+def data_rating():
+	# this is the controller for JSON data access
+	rating_list = Rating.query.all()
+
+	if rating_list:
+		json_result = json.dumps([rating.dto() for rating in rating_list])
+	else:
+		json_result = None
+
+	return json_result
+
+@app.route('/rating/')
+def rating_view_controller():
+	#this is the controller to view all data in the model
+	rating_list = Rating.query.all()
+
+	if rating_list:
+		rating_entries = [rating.dto() for rating in rating_list]
+	else:
+		rating_entries = None
+
+	return render_template('rating.html',rating_entries = rating_entries)
+
+@app.route('/rating/add/')
+def rating_add_controller():
+	#this is the controller to add new model entries
+	return render_template('rating_add.html')
+
+@app.route('/rating/create/',methods=['POST','GET'])
+def rating_create_data_controller():
+	# this is the rating data create handler
+	user_id = request.values.get('user_id')
+	overall_rating = request.values.get('overall_rating')
+	rated_on = request.values.get('rated_on')
+
+	new_rating = Rating(
+									user_id = user_id,
+									overall_rating = overall_rating,
+									rated_on = rated_on
+								)
+
+	db.session.add(new_rating)
+	db.session.commit()
+
+	return 'data input successful <a href="/rating/">back to Entries</a>'
+
+@app.route('/rating/edit/<id>')
+def rating_edit_controller(id):
+	#this is the controller to edit model entries
+	rating_item = Rating.query.filter(Rating.id == id).first()
+	return render_template('rating_edit.html', rating_item = rating_item)
+
+@app.route('/rating/update/<id>',methods=['POST','GET'])
+def rating_update_data_controller(id):
+	# this is the rating data update handler
+	user_id = request.values.get('user_id')
+	overall_rating = request.values.get('overall_rating')
+	rated_on = request.values.get('rated_on')
+	rating_item = Rating.query.filter(Rating.rating_id == id).first()
+	rating_item.user_id = user_id
+	rating_item.overall_rating = overall_rating
+	rating_item.rated_on = rated_on
+
+	db.session.add(rating_item)
+	db.session.commit()
+
+	return 'data update successful <a href="/rating/">back to Entries</a>'
+
+@app.route('/rating/delete/<id>')
+def rating_delete_controller(id):
+	#this is the controller to delete model entries
+	rating_item = Rating.query.filter(Rating.rating_id == id).first()
+
+	db.session.delete(rating_item)
+	db.session.commit()
+
+	return 'data deletion successful <a href="/rating/">back to Entries</a>'
 

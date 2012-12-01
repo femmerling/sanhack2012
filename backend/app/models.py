@@ -62,3 +62,17 @@ class Facility(db.Model):
 				toilet_paper = self.toilet_paper,
 				hand_drier = self.hand_drier,
 				wash_basin = self.wash_basin)
+
+class Rating(db.Model):
+	rating_id = db.Column(db.BigInteger, primary_key=True)
+	user_id = db.Column(db.BigInteger)
+	overall_rating = db.Column(db.Float)
+	rated_on = db.Column(db.DateTime)
+
+	# data transfer object to form JSON
+	def dto(self):
+		return dict(
+				rating_id = self.rating_id,
+				user_id = self.user_id,
+				overall_rating = self.overall_rating,
+				rated_on = self.rated_on)

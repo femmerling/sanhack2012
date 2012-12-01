@@ -1,0 +1,35 @@
+<!doctype html>
+<html>	<head><title>Rating Entries</title></head>
+	<body>
+		<h1>List of Rating Entries.</h1>
+		<table>
+			<thead>
+				<tr>
+					<td><b>ID</td>
+					<td><b>User_Id</b></td>
+					<td><b>Overall_Rating</b></td>
+					<td><b>Rated_On</b></td>
+					<td><b> </td>
+					<td><b> </td>
+				</tr>
+			</thead>
+			{% if rating_entries %}
+			<tbody>
+			{% for entry in rating_entries %}
+				<tr>
+					<td>{{ entry.id }}</td>
+					<td>{{ entry.user_id }}</td>
+					<td>{{ entry.overall_rating }}</td>
+					<td>{{ entry.rated_on }}</td>
+					<td><a href="/rating/edit/{{ entry.rating_id }}">Edit</a></td>
+					<td><a href="/rating/delete/{{ entry.rating_id }}">Delete</a></td>
+				</tr>
+			{% endfor %}
+			</tbody>
+		</table>
+			{% else %}
+		You have no entries yet
+			{% endif %}
+			<b><a href="/rating/add">Add new entry</a></b>
+	</body>
+</html>
