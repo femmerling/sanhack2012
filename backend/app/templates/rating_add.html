@@ -1,19 +1,19 @@
-<!doctype html>
-<html>	<head><title>Rating Entries</title></head>
-	<body>
+{% extends "base.html" %}
+{% block title %}Rating Entries{% endblock %}
+	{% block content %}
 		<h1>Add new Rating Entries.</h1>
 		<form name="rating_add" method="post" action="/rating/create/">
 		<table>
 				<tr>
-					<td>User_Id:</td>
+					<td>User ID:</td>
 					<td><input type="text" name="user_id"/></td>
 				</tr>
 				<tr>
-					<td>Overall_Rating:</td>
+					<td>Overall Rating:</td>
 					<td><input type="text" name="overall_rating"/></td>
 				</tr>
 				<tr>
-					<td>Rated_On:</td>
+					<td>Rated on:</td>
 					<td><input type="text" name="rated_on"/></td>
 				</tr>
 				<tr>
@@ -22,5 +22,4 @@
 				</tr>
 		</table>
 		</form>
-	</body>
-</html>
+	{% endblock %}

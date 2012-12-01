@@ -106,7 +106,6 @@ def toilet_view_controller():
 
 	return render_template('toilet.html',toilet_entries = toilet_entries)
 
-@app.route('/toilet/<inputid>.json')
 def get_single_toilet(inputid):
 	base_url = request.environ.get('wsgi.url_scheme')+"://"+request.environ.get('HTTP_HOST')
 	single_toilet = Toilet.query.filter(Toilet.toilet_id == inputid).first()
@@ -130,7 +129,12 @@ def get_single_toilet(inputid):
 	else:
 		toilet = None
 		facility = None
-	result = json.dumps(dict(toilet=toilet,facility=facility,total_vote=totnum,full_image=full_image,thumb_image=thumb_image))
+	result = dict(toilet=toilet,facility=facility,total_vote=totnum,full_image=full_image,thumb_image=thumb_image)
+	return result
+    
+@app.route('/toilet/<inputid>.json')
+def get_single_toilet_json(inputid):
+	result = json.dumps(get_single_toilet(inputid))
 	return result
     
 @app.route('/toilet/<inputid>')
@@ -425,7 +429,7 @@ def data_rating():
 	if rating_list:
 		json_result = json.dumps([rating.dto() for rating in rating_list])
 	else:
-		json_result = None
+		json_result = json.dumps(dict(rating=None))
 
 	return json_result
 

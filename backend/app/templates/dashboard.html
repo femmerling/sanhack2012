@@ -1,2 +1,55 @@
 {% extends "base.html" %}
-    {% block content %}{% endblock %}
+    {% block title %}Toilet Dashboard{% endblock %}
+    {% block sidebar %}
+    <h1>Statistics</h1>
+    <table class="table table-hover">
+    <tr>
+        <td># Toilet:</td>
+    	<td></td>
+    </tr>
+    <tr>
+        <td># User:</td>
+    	<td></td>
+    </tr>
+    <tr>
+        <td>Average Rating:</td>
+    	<td></td>
+    </tr>
+    </table>
+    {% endblock %}
+    {% block content %}
+    <article>
+    </article>
+    {% endblock %}
+    {% block addon %}
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+    <script type="text/javascript">
+    
+    var map;
+    
+    var mapcanvas = document.createElement('div');
+    mapcanvas.id = 'mapcanvas';
+    mapcanvas.style.height = '400px';
+    mapcanvas.style.width = '560px';
+    
+    document.querySelector('article').appendChild(mapcanvas);
+    
+              var latlng = new google.maps.LatLng(-6.36519,106.82973);
+              var myOptions = {
+                zoom: 10,
+                center: latlng,
+                mapTypeControl: false,
+                navigationControlOptions: {style: google.maps.NavigationControlStyle.SMALL},
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+              };
+              map = new google.maps.Map(document.getElementById("mapcanvas"), myOptions);
+              /*
+              var marker = new google.maps.Marker({
+                  position: latlng, 
+                  map: map, 
+                  title:"there!"
+              });
+              */
+    
+    </script>
+    {% endblock %}

@@ -1,24 +1,59 @@
 {% extends "base.html" %}
     {% block title %}{{ toilet_item.toilet_name }}{% endblock %}
     {% block sidebar %}
+    <h1>{{ toilet_item.toilet.toilet_name }}</h1>
     <table class="table table-hover">
     <tr>
-        <td>Name:</td>
-    	<td>{{ toilet_item.toilet_name }}</td>
-    </tr>
-    <tr>
         <td>location:</td>
-    	<td>{{ toilet_item.toilet_lat }},{{ toilet_item.toilet_long }}</td>
+    	<td>{{ toilet_item.toilet.toilet_lat }},{{ toilet_item.toilet.toilet_long }}</td>
     </tr>
     <tr>
         <td>Address:</td>
-    	<td>{{ toilet_item.toilet_address }}</td>
+    	<td>{{ toilet_item.toilet.toilet_address }}</td>
+    </tr>
+    <tr>
+        <td>Rating:</td>
+    	<td>{{ toilet_item.toilet.toilet_current_rating }}</td>
     </tr>
     </table>
+    <article>
+    </article>
     {% endblock %}
     {% block content %}
+    <div class="row">
+        <div class="span6">
+            <img src="{{ toilet_item.full_image }}" alt="" width="400" height="400"/>
+        </div>
+    </div>
     {% endblock %}
     {% block addon %}
-    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
-    <script type="text/javascript"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+    <script type="text/javascript">
+    
+    var map;
+    
+    var mapcanvas = document.createElement('div');
+    mapcanvas.id = 'mapcanvas';
+    mapcanvas.style.height = '200px';
+    mapcanvas.style.width = '270px';
+    
+    document.querySelector('article').appendChild(mapcanvas);
+    
+              var latlng = new google.maps.LatLng({{ toilet_item.toilet.toilet_lat }},{{ toilet_item.toilet.toilet_long }});
+              var myOptions = {
+                zoom: 18,
+                center: latlng,
+                mapTypeControl: false,
+                navigationControlOptions: {style: google.maps.NavigationControlStyle.SMALL},
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+              };
+              map = new google.maps.Map(document.getElementById("mapcanvas"), myOptions);
+              
+              var marker = new google.maps.Marker({
+                  position: latlng, 
+                  map: map, 
+                  title:"there!"
+              });
+    
+    </script>
     {% endblock %}
