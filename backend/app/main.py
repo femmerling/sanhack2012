@@ -45,13 +45,24 @@ def search_toilet(latlong_string):
 	latlong = latlong_string.split(',')
 	toilet_list = Toilet.query.all()
 	for toilet in toilet_list:
+		toilet_detail = {}
 		db_pair = []
 		db_pair.append(toilet.toilet_lat)
 		db_pair.append(toilet.toilet_long)
 		delta = distance(latlong,db_pair)
 		if delta <= 1:
-			toilets.append(toilet)
-	result = json.dumps(dict(toilets=[toilet.dto() for toilet in toilets]))
+			toilet_detail['toilet_id'] = toilet.toilet_id
+			toilet_detail['toilet_name'] = toilet.toilet_name
+			toilet_detail['toilet_lat'] = toilet.toilet_lat
+			toilet_detail['toilet_long'] = toilet.toilet_long
+			toilet_detail['toilet_address'] = toilet.toilet_address
+			toilet_detail['toilet_current_rating'] = toilet.toilet_current_rating
+			toilet_detail['toilet_type'] = toilet.toilet_type
+			toilet_detail['added_on'] = toilet.added_on.isoformat()
+			toilet_detail['user_id'] = toilet.user_id
+			toilet_detail['distance'] = math.floor(delta*100)
+			toilets.append(toilet_detail)
+	result = json.dumps(dict(toilets=toilets))
 	return result
 
 
