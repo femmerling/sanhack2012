@@ -7,6 +7,7 @@ class Toilet(db.Model):
 	toilet_long = db.Column(db.String(50))
 	toilet_address = db.Column(db.String(100))
 	toilet_current_rating = db.Column(db.Float)
+	toilet_type = db.Column(db.Integer)
 	added_on = db.Column(db.DateTime)
 	user_id = db.Column(db.BigInteger)
 	facility = db.relationship('Facility', backref='toilet', lazy='dynamic')
@@ -20,6 +21,7 @@ class Toilet(db.Model):
 				toilet_long = self.toilet_long,
 				toilet_address = self.toilet_address,
 				toilet_current_rating = self.toilet_current_rating,
+				toilet_type = self.toilet_type,
 				added_on = self.added_on.isoformat(),
 				user_id = self.user_id)
 

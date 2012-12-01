@@ -15,8 +15,10 @@ import logging
 import datetime
 import hashlib
 import math
+import os
 # define global variables here
-
+basedir = os.path.abspath(os.path.dirname(__file__))
+upload_path = os.path.join(basedir, 'app/static/')
 # define functions here
 def distance(point1, point2):
 	lat1, lon1, lat2, lon2 = map(math.radians, [float(point1[0]), float(point1[1]), float(point2[0]), float(point2[1])])
@@ -49,7 +51,7 @@ def search_toilet(latlong_string):
 		delta = distance(latlong,db_pair)
 		if delta <= 1:
 			toilets.append(toilet)
-	result = json.dumps([toilet.dto() for toilet in toilets])
+	result = json.dumps(dict(toilets=[toilet.dto() for toilet in toilets]))
 	return result
 
 
@@ -107,6 +109,7 @@ def toilet_create_data_controller():
 	toilet_long = request.values.get('toilet_long')
 	toilet_address = request.values.get('toilet_address')
 	toilet_current_rating = request.values.get('toilet_current_rating')
+	toilet_type = request.values.get('toilet_type')
 	user_id = request.values.get('user_id')
 
 	new_toilet = Toilet(
@@ -115,6 +118,7 @@ def toilet_create_data_controller():
 									toilet_long = toilet_long,
 									toilet_address = toilet_address,
 									toilet_current_rating = toilet_current_rating,
+									toilet_type = toilet_type,
 									added_on = datetime.datetime.now(),
 									user_id = user_id
 								)
@@ -138,6 +142,7 @@ def toilet_update_data_controller(id):
 	toilet_long = request.values.get('toilet_long')
 	toilet_address = request.values.get('toilet_address')
 	toilet_current_rating = request.values.get('toilet_current_rating')
+	toilet_type = request.values.get('toilet_type')
 	added_on = request.values.get('added_on')
 	user_id = request.values.get('user_id')
 	toilet_item = Toilet.query.filter(Toilet.toilet_id == id).first()
@@ -146,6 +151,7 @@ def toilet_update_data_controller(id):
 	toilet_item.toilet_long = toilet_long
 	toilet_item.toilet_address = toilet_address
 	toilet_item.toilet_current_rating = toilet_current_rating
+	toilet_item.toilet_type = toilet_type
 	toilet_item.added_on = added_on
 	toilet_item.user_id = user_id
 
