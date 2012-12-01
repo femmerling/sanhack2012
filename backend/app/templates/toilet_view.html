@@ -1,2 +1,24 @@
 {% extends "base.html" %}
-    {% block content %}{% endblock %}
+    {% block title %}{{ toilet_item.toilet_name }}{% endblock %}
+    {% block sidebar %}
+    <table class="table table-hover">
+    <tr>
+        <td>Name:</td>
+    	<td>{{ toilet_item.toilet_name }}</td>
+    </tr>
+    <tr>
+        <td>location:</td>
+    	<td>{{ toilet_item.toilet_lat }},{{ toilet_item.toilet_long }}</td>
+    </tr>
+    <tr>
+        <td>Address:</td>
+    	<td>{{ toilet_item.toilet_address }}</td>
+    </tr>
+    </table>
+    {% endblock %}
+    {% block content %}
+    {% endblock %}
+    {% block addon %}
+    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+    <script type="text/javascript"></script>
+    {% endblock %}

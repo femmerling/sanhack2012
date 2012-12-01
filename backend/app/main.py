@@ -136,7 +136,7 @@ def get_single_toilet(inputid):
 @app.route('/toilet/<inputid>')
 def view_single_toilet(inputid):
     toilet_data = get_single_toilet(inputid)
-    return render_template('toilet_view.html',toilet = toilet_data)
+    return render_template('toilet_view.html',toilet_item = toilet_data)
 
 @app.route('/toilet/add/')
 def toilet_add_controller():
