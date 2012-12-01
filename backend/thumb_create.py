@@ -7,9 +7,9 @@ thumb_size = 96, 96
 orig_size = 640, 480
 
 basedir = os.path.abspath(os.path.dirname(__file__))
-orig_dir = os.path.join(basedir, 'app/static/tmp/')
-thumb_dir = os.path.join(basedir, 'app/static/thumb/')
-img_dir = os.path.join(basedir, 'app/static/large/')
+orig_dir = os.path.join(basedir, 'app/static/img/tmp/')
+thumb_dir = os.path.join(basedir, 'app/static/img/thumb/')
+img_dir = os.path.join(basedir, 'app/static/img/large/')
 if len(sys.argv) > 1:
     sysinput = sys.argv[1].lower()
     input_img = orig_dir + sysinput + '.jpg'

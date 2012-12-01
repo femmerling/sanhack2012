@@ -23,7 +23,7 @@ import os
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 base_url = 'http://192.168.2.1:5000/'
-upload_folder = os.path.join(basedir, 'static/tmp/')
+upload_folder = os.path.join(basedir, 'static/img/tmp/')
 
 # define functions here
 def distance(point1, point2):
@@ -118,12 +118,11 @@ def get_single_toilet(inputid):
 			facility = None
 		image_list = single_toilet.image.first()
 		if image_list:
-			logging.error(image_list)
-			full_image = base_url + 'static/upload/' + str(image_list.image_id) + '.jpg'
-			thumb_image = base_url + 'static/thumb/' + str(image_list.image_id) + '.jpg'
+			full_image = base_url + 'static/img/large/' + str(image_list.image_id) + '.jpg'
+			thumb_image = base_url + 'static/img/thumb/' + str(image_list.image_id) + '.jpg'
 		else:
-			full_image = None
-			thumb_image = None
+			full_image = base_url + 'static/img/large/1.jpg'
+			thumb_image = base_url + 'static/img/thumb/1.jpg'
 			# image = None
 		total_rate = Rating.query.filter(Rating.toilet_id == inputid).all()
 		totnum  = len(total_rate)
@@ -455,7 +454,7 @@ def rating_create_data_controller():
 	db.session.add(rating_item)
 	db.session.commit()
 	
-	return 'rating process done'
+	return str(avg)
 
 
 
