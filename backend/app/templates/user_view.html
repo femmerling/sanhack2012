@@ -2,7 +2,7 @@
     {% block title %}User Entries{% endblock %}
     {% block content %}
 		<h1>Edit User Entries.</h1>
-		<form name="user_add" method="post" action="/user/update/{{ user_item.id }}">
+
 		<table>
 				<tr>
 					<td>First_Name:</td>
@@ -21,5 +21,5 @@
 					<td>{{ user_data.registered_on }}</td>
 				</tr>
 		</table>
-		</form>
+
      {% endblock %}

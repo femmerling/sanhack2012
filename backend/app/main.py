@@ -244,9 +244,9 @@ def get_single_user(inputid):
 @app.route('/user/<inputid>')
 def get_user_detail(inputid):
 	single_user = User.query.filter(User.user_id == inputid).first()
-	result = json.dumps(single_user.dto())
+	result = single_user.dto()
 
-	return render_template(user_view.html, user_data=result)
+	return render_template('user_view.html', user_data=result)
 
 @app.route('/user/add/')
 def user_add_controller():
