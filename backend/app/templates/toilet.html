@@ -13,6 +13,7 @@
 					<th>Address</th>
 					<th>Rating</th>
 					<th>Added On</th>
+					<th>Toilet Type</th>
 					<th>User</th>
 					<th colspan="2">&nbsp;</th>
 				</tr>
@@ -28,6 +29,7 @@
 					<td>{{ entry.toilet_address }}</td>
 					<td>{{ entry.toilet_current_rating }}</td>
 					<td>{{ entry.added_on }}</td>
+					<td>{{ entry.toilet_type }}</td>
 					<td>{{ entry.user_id }}</td>
 					<td><a class="btn" href="/toilet/edit/{{ entry.id }}">Edit</a></td>
 					<td><a class="btn" href="/toilet/delete/{{ entry.id }}">Delete</a></td>
