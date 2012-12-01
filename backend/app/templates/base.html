@@ -1,0 +1,54 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta name="generator" content="HTML Tidy for Windows (vers 14 February 2006), see www.w3.org" />
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>
+      {% block title %}{% endblock %}
+    </title>
+    <link rel="stylesheet" href="/static/css/bootstrap.css" type="text/css" />
+    <link rel="stylesheet" href="/static/css/bootstrap-responsive.css" type="text/css" />
+    <meta name="DESCRIPTION" content="Toilet Finder Application" />
+    <meta name="KEYWORD" content="toilet,location,search,sanitation,hackathon,sanhack2012" />
+    <meta name="Robots" content="all,index,follow" />
+    <meta name="revisit-after" content="1 days" />
+    <meta name="distribution" content="global" />
+  </head>
+  <body style="margin-top: 60px;">
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="brand" href="/">Cablet</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li class="">
+                <a href="/">Home</a>
+              </li>
+              <li class="">
+                <a href="/facility/">Facility</a>
+              </li>
+              <li class="">
+                <a href="/toilet/">Toilets</a>
+              </li>
+              <li class="active">
+                <a href="/user/">User</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container-fluid">
+      <div class="span3">
+        {% block sidebar %}{% endblock %}
+      </div>
+      <div class="span8">
+        {% block content %}{% endblock %}
+      </div>
+      <div class="row">
+        {% block footer %}{% endblock %}
+      </div>
+    </div><script type="text/javascript" href="/static/js/bootstrap.min.js">
+</script>
+  </body>
+</html>
