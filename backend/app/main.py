@@ -37,7 +37,7 @@ def data_toilet():
 	if toilet_list:
 		json_result = json.dumps([toilet.dto() for toilet in toilet_list])
 	else:
-		json_result = None
+		json_result = json.dumps(dict(toilet=None))
 
 	return json_result
 
@@ -152,7 +152,7 @@ def data_user():
 	if user_list:
 		json_result = json.dumps([user.dto() for user in user_list])
 	else:
-		json_result = None
+		json_result = json.dumps(dict(user=None))
 
 	return json_result
 
@@ -250,7 +250,7 @@ def data_facility():
 	if facility_list:
 		json_result = json.dumps([facility.dto() for facility in facility_list])
 	else:
-		json_result = None
+		json_result = json.dumps(dict(facility=None))
 
 	return json_result
 

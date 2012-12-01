@@ -3,6 +3,7 @@
 *.js
 *.css
 setupy.py
+config.py
 .DS_Store
 db_repository/
 box/

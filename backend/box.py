@@ -1,4 +1,4 @@
-#! box/bin/python
+#! box/Scripts/python
 import imp
 import sys
 import os.path

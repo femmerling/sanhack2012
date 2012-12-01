@@ -1,4 +1,4 @@
-#! box/bin/python
+#! box/Scripts/python
 from tornado.wsgi import WSGIContainer
 from tornado.httpserver import HTTPServer
 from tornado.ioloop import IOLoop
