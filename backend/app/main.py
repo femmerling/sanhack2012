@@ -234,12 +234,19 @@ def user_view_controller():
 
 	return render_template('user.html',user_entries = user_entries)
 
-@app.route('/user/<inputid>')
+@app.route('/user/<inputid>.json')
 def get_single_user(inputid):
 	single_user = User.query.filter(User.user_id == inputid).first()
 	result = json.dumps(single_user.dto())
 
 	return result
+
+@app.route('/user/<inputid>')
+def get_user_detail(inputid):
+	single_user = User.query.filter(User.user_id == inputid).first()
+	result = json.dumps(single_user.dto())
+
+	return render_template(user_view.html, user_data=result)
 
 @app.route('/user/add/')
 def user_add_controller():
@@ -430,8 +437,8 @@ def rating_view_controller():
 
 
 
-@app.route('/rating/create/',methods=['POST','GET'])
-def rating_create_data_controller():
+@app.route('/rating/create/<toilet_id>/<user_id>/<overall_rating>', methods=['POST','GET','PUT'])
+def rating_create_data_controller(toilet_id,user_id,overall_rating):
 	# this is the rating data create handler
 	toilet_id = request.values.get('toilet_id')
 	user_id = request.values.get('user_id')
@@ -447,14 +454,19 @@ def rating_create_data_controller():
 	db.session.add(new_rating)
 	db.session.commit()
 
-	avg = db.session.query(sqlalchemy.func.avg(Rating.overall_rating).label('average')).filter(Rating.toilet_id == toilet_id).first()
-	change_toilet_rating = Rating.query.filter(Toilet.toilet_id == toilet_id).first()
-	change_toilet_rating.toilet_current_rating = avg
+	avg = db.session.query(sqlalchemy.func.avg(Rating.overall_rating).label('average')).filter(Rating.toilet_id == toilet_id).one()
+	result = str(avg[0])
+	toilet_item = Toilet.query.filter(Toilet.toilet_id == toilet_id).first()
+	if toilet_item:
+		toilet_item.toilet_current_rating = result
 	
-	db.session.add(rating_item)
-	db.session.commit()
+		db.session.add(toilet_item)
+		db.session.commit()
 	
-	return str(avg)
+		return result
+
+	else:
+		return 'error'
 
 
 
@@ -543,10 +555,10 @@ def image_delete_controller(id):
 	return 'data deletion successful <a href="/image/">back to Entries</a>'
 
 
-# @app.route('/rating/add/')
-# def rating_add_controller():
-# 	#this is the controller to add new model entries
-# 	return render_template('rating_add.html')
+@app.route('/rating/add/')
+def rating_add_controller():
+	#this is the controller to add new model entries
+	return render_template('rating_add.html')
 
 # @app.route('/rating/edit/<id>')
 # def rating_edit_controller(id):

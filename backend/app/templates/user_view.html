@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+    {% block title %}User Entries{% endblock %}
+    {% block content %}
+		<h1>Edit User Entries.</h1>
+		<form name="user_add" method="post" action="/user/update/{{ user_item.id }}">
+		<table>
+				<tr>
+					<td>First_Name:</td>
+					<td>{{ user_data.first_name }}</td>
+				</tr>
+				<tr>
+					<td>Last_Name:</td>
+					<td>{{ user_data.last_name }}</td>
+				</tr>
+				<tr>
+					<td>Email:</td>
+					<td>{{ user_data.email }}</td>
+				</tr>
+				<tr>
+					<td>Registered_On:</td>
+					<td>{{ user_data.registered_on }}</td>
+				</tr>
+		</table>
+		</form>
+     {% endblock %}
