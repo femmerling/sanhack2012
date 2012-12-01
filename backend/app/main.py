@@ -580,3 +580,7 @@ def image_delete_controller(id):
 
 #	return 'data deletion successful <a href="/rating/">back to Entries</a>'
 
+@app.route('/dashboard/')
+def dashboard_controller():
+	#this is the controller to display aggregated data
+	return render_template('dashboard.html')
