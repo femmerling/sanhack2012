@@ -14,7 +14,18 @@ from flask import Response
 import logging
 import datetime
 import hashlib
+import math
 # define global variables here
+
+# define functions here
+def distance(point1, point2):
+	lat1, lon1, lat2, lon2 = map(math.radians, [float(point1[0]), float(point1[1]), float(point2[0]), float(point2[1])])
+	dlat = lat2 - lat1
+	dlon = lon2 - lon1
+	a = (math.sin(dlat/2)**2) + (math.cos(lat1) * math.cos(lat2) * math.sin(dlon/2)**2)
+	c = 2 * math.asin(math.sqrt(a))
+	km = 6371 * c
+	return km
 
 # home root controller
 @app.route('/')
@@ -24,9 +35,22 @@ def index():
 
 
 ########### toilet data model controllers area ###########
-@app.route('/search/')
-def search_toilet():
-	latlong_string = request.values.get('latlong')
+@app.route('/search/<latlong_string>')
+def search_toilet(latlong_string):
+	#latlong_string = request.values.get('latlong')
+	toilets = []
+	#latlong_string = '-6.363603,106.828285'
+	latlong = latlong_string.split(',')
+	toilet_list = Toilet.query.all()
+	for toilet in toilet_list:
+		db_pair = []
+		db_pair.append(toilet.toilet_lat)
+		db_pair.append(toilet.toilet_long)
+		delta = distance(latlong,db_pair)
+		if delta <= 1:
+			toilets.append(toilet)
+	result = json.dumps([toilet.dto() for toilet in toilets])
+	return result
 
 
 @app.route('/data/toilet/')

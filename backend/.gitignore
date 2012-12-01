@@ -4,6 +4,8 @@
 *.css
 setupy.py
 config.py
+box.py
+ignite.py
 .DS_Store
 db_repository/
 box/
