@@ -11,6 +11,8 @@ from flask import redirect
 from flask import request
 from flask import abort
 from flask import Response
+from config import SQLALCHEMY_DATABASE_URI
+import sqlalchemy
 import logging
 import datetime
 import hashlib
@@ -51,9 +53,7 @@ def index():
 ########### toilet data model controllers area ###########
 @app.route('/search/<latlong_string>')
 def search_toilet(latlong_string):
-	#latlong_string = request.values.get('latlong')
 	toilets = []
-	#latlong_string = '-6.363603,106.828285'
 	latlong = latlong_string.split(',')
 	toilet_list = Toilet.query.all()
 	for toilet in toilet_list:
@@ -392,6 +392,13 @@ def facility_delete_controller(id):
 
 ########### rating data model controllers area ###########
 
+@app.route('/testing/')
+def data_testing():
+	
+	logging.error(avg)
+	return 'test on progress'
+
+
 @app.route('/data/rating/')
 def data_rating():
 	# this is the controller for JSON data access
@@ -416,58 +423,66 @@ def rating_view_controller():
 
 	return render_template('rating.html',rating_entries = rating_entries)
 
-@app.route('/rating/add/')
-def rating_add_controller():
-	#this is the controller to add new model entries
-	return render_template('rating_add.html')
+# @app.route('/rating/add/')
+# def rating_add_controller():
+# 	#this is the controller to add new model entries
+# 	return render_template('rating_add.html')
 
 @app.route('/rating/create/',methods=['POST','GET'])
 def rating_create_data_controller():
 	# this is the rating data create handler
+	toilet_id = request.values.get('toilet_id')
 	user_id = request.values.get('user_id')
 	overall_rating = request.values.get('overall_rating')
-	rated_on = request.values.get('rated_on')
 
 	new_rating = Rating(
+									toilet_id = toilet_id,
 									user_id = user_id,
 									overall_rating = overall_rating,
-									rated_on = rated_on
+									rated_on = datetime.datetime.now()
 								)
 
 	db.session.add(new_rating)
 	db.session.commit()
 
-	return 'data input successful <a href="/rating/">back to Entries</a>'
-
-@app.route('/rating/edit/<id>')
-def rating_edit_controller(id):
-	#this is the controller to edit model entries
-	rating_item = Rating.query.filter(Rating.id == id).first()
-	return render_template('rating_edit.html', rating_item = rating_item)
-
-@app.route('/rating/update/<id>',methods=['POST','GET'])
-def rating_update_data_controller(id):
-	# this is the rating data update handler
-	user_id = request.values.get('user_id')
-	overall_rating = request.values.get('overall_rating')
-	rated_on = request.values.get('rated_on')
-	rating_item = Rating.query.filter(Rating.rating_id == id).first()
-	rating_item.user_id = user_id
-	rating_item.overall_rating = overall_rating
-	rating_item.rated_on = rated_on
-
+	avg = db.session.query(sqlalchemy.func.avg(Rating.overall_rating).label('average')).filter(Rating.toilet_id == 2).first()
+	change_toilet_rating = Rating.query.filter(Toilet.toilet_id == toilet_id).first()
+	change_toilet_rating.toilet_current_rating = avg
+	
 	db.session.add(rating_item)
 	db.session.commit()
+	
+	return 'rating process done'
+
+# @app.route('/rating/edit/<id>')
+# def rating_edit_controller(id):
+# 	#this is the controller to edit model entries
+# 	rating_item = Rating.query.filter(Rating.id == id).first()
+# 	return render_template('rating_edit.html', rating_item = rating_item)
+
+# @app.route('/rating/update/<id>',methods=['POST','GET'])
+# def rating_update_data_controller(id):
+# 	# this is the rating data update handler
+# 	user_id = request.values.get('user_id')
+# 	overall_rating = request.values.get('overall_rating')
+# 	rated_on = request.values.get('rated_on')
+# 	rating_item = Rating.query.filter(Rating.rating_id == id).first()
+# 	rating_item.user_id = user_id
+# 	rating_item.overall_rating = overall_rating
+# 	rating_item.rated_on = rated_on
+
+# 	db.session.add(rating_item)
+# 	db.session.commit()
 
 	return 'data update successful <a href="/rating/">back to Entries</a>'
 
-@app.route('/rating/delete/<id>')
-def rating_delete_controller(id):
-	#this is the controller to delete model entries
-	rating_item = Rating.query.filter(Rating.rating_id == id).first()
+# @app.route('/rating/delete/<id>')
+# def rating_delete_controller(id):
+# 	#this is the controller to delete model entries
+# 	rating_item = Rating.query.filter(Rating.rating_id == id).first()
 
-	db.session.delete(rating_item)
-	db.session.commit()
+# 	db.session.delete(rating_item)
+# 	db.session.commit()
 
 	return 'data deletion successful <a href="/rating/">back to Entries</a>'
 

@@ -65,6 +65,7 @@ class Facility(db.Model):
 
 class Rating(db.Model):
 	rating_id = db.Column(db.BigInteger, primary_key=True)
+	toilet_id = db.Column(db.BigInteger)
 	user_id = db.Column(db.BigInteger)
 	overall_rating = db.Column(db.Float)
 	rated_on = db.Column(db.DateTime)
@@ -73,6 +74,7 @@ class Rating(db.Model):
 	def dto(self):
 		return dict(
 				rating_id = self.rating_id,
+				toilet_id = self.toilet_id,
 				user_id = self.user_id,
 				overall_rating = self.overall_rating,
 				rated_on = self.rated_on)
