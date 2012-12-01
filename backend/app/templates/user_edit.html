@@ -1,0 +1,34 @@
+<!doctype html>
+<html>	<head><title>Edit User Entries</title></head>
+	<body>
+		<h1>Edit User Entries.</h1>
+		<form name="user_add" method="post" action="/user/update/{{ user_item.id }}">
+		<table>
+				<tr>
+					<td>First_Name:</td>
+					<td><input type="text" name="first_name" value="{{ user_item.first_name }}"/></td>
+				</tr>
+				<tr>
+					<td>Last_Name:</td>
+					<td><input type="text" name="last_name" value="{{ user_item.last_name }}"/></td>
+				</tr>
+				<tr>
+					<td>Email:</td>
+					<td><input type="text" name="email" value="{{ user_item.email }}"/></td>
+				</tr>
+				<tr>
+					<td>Password:</td>
+					<td><input type="text" name="password" value="{{ user_item.password }}"/></td>
+				</tr>
+				<tr>
+					<td>Registered_On:</td>
+					<td><input type="text" name="registered_on" value="{{ user_item.registered_on }}"/></td>
+				</tr>
+				<tr>
+					<td><input type="submit" name="submit" value="Edit Entry"/></td>
+					<td> </td>
+				</tr>
+		</table>
+		</form>
+	</body>
+</html>

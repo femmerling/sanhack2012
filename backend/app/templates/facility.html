@@ -1,0 +1,41 @@
+<!doctype html>
+<html>	<head><title>Facility Entries</title></head>
+	<body>
+		<h1>List of Facility Entries.</h1>
+		<table>
+			<thead>
+				<tr>
+					<td><b>ID</td>
+					<td><b>Toilet_Id</b></td>
+					<td><b>Shower</b></td>
+					<td><b>Soap</b></td>
+					<td><b>Toilet_Paper</b></td>
+					<td><b>Hand_Drier</b></td>
+					<td><b>Wash_Basin</b></td>
+					<td><b> </td>
+					<td><b> </td>
+				</tr>
+			</thead>
+			{% if facility_entries %}
+			<tbody>
+			{% for entry in facility_entries %}
+				<tr>
+					<td>{{ entry.id }}</td>
+					<td>{{ entry.toilet_id }}</td>
+					<td>{{ entry.shower }}</td>
+					<td>{{ entry.soap }}</td>
+					<td>{{ entry.toilet_paper }}</td>
+					<td>{{ entry.hand_drier }}</td>
+					<td>{{ entry.wash_basin }}</td>
+					<td><a href="/facility/edit/{{ entry.facility_id }}">Edit</a></td>
+					<td><a href="/facility/delete/{{ entry.facility_id }}">Delete</a></td>
+				</tr>
+			{% endfor %}
+			</tbody>
+		</table>
+			{% else %}
+		You have no entries yet
+			{% endif %}
+			<b><a href="/facility/add">Add new entry</a></b>
+	</body>
+</html>

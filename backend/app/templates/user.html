@@ -1,0 +1,39 @@
+<!doctype html>
+<html>	<head><title>User Entries</title></head>
+	<body>
+		<h1>List of User Entries.</h1>
+		<table>
+			<thead>
+				<tr>
+					<td><b>ID</td>
+					<td><b>First_Name</b></td>
+					<td><b>Last_Name</b></td>
+					<td><b>Email</b></td>
+					<td><b>Password</b></td>
+					<td><b>Registered_On</b></td>
+					<td><b> </td>
+					<td><b> </td>
+				</tr>
+			</thead>
+			{% if user_entries %}
+			<tbody>
+			{% for entry in user_entries %}
+				<tr>
+					<td>{{ entry.id }}</td>
+					<td>{{ entry.first_name }}</td>
+					<td>{{ entry.last_name }}</td>
+					<td>{{ entry.email }}</td>
+					<td>{{ entry.password }}</td>
+					<td>{{ entry.registered_on }}</td>
+					<td><a href="/user/edit/{{ entry.id }}">Edit</a></td>
+					<td><a href="/user/delete/{{ entry.id }}">Delete</a></td>
+				</tr>
+			{% endfor %}
+			</tbody>
+		</table>
+			{% else %}
+		You have no entries yet
+			{% endif %}
+			<b><a href="/user/add">Add new entry</a></b>
+	</body>
+</html>

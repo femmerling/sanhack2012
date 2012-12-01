@@ -1,0 +1,43 @@
+<!doctype html>
+<html>	<head><title>Toilet Entries</title></head>
+	<body>
+		<h1>List of Toilet Entries.</h1>
+		<table>
+			<thead>
+				<tr>
+					<td><b>ID</td>
+					<td><b>Toilet_Name</b></td>
+					<td><b>Toilet_Lat</b></td>
+					<td><b>Toilet_Long</b></td>
+					<td><b>Toilet_Address</b></td>
+					<td><b>Toilet_Current_Rating</b></td>
+					<td><b>Added_On</b></td>
+					<td><b>User_Id</b></td>
+					<td><b> </td>
+					<td><b> </td>
+				</tr>
+			</thead>
+			{% if toilet_entries %}
+			<tbody>
+			{% for entry in toilet_entries %}
+				<tr>
+					<td>{{ entry.id }}</td>
+					<td>{{ entry.toilet_name }}</td>
+					<td>{{ entry.toilet_lat }}</td>
+					<td>{{ entry.toilet_long }}</td>
+					<td>{{ entry.toilet_address }}</td>
+					<td>{{ entry.toilet_current_rating }}</td>
+					<td>{{ entry.added_on }}</td>
+					<td>{{ entry.user_id }}</td>
+					<td><a href="/toilet/edit/{{ entry.id }}">Edit</a></td>
+					<td><a href="/toilet/delete/{{ entry.id }}">Delete</a></td>
+				</tr>
+			{% endfor %}
+			</tbody>
+		</table>
+			{% else %}
+		You have no entries yet
+			{% endif %}
+			<b><a href="/toilet/add">Add new entry</a></b>
+	</body>
+</html>
