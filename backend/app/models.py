@@ -11,6 +11,7 @@ class Toilet(db.Model):
 	added_on = db.Column(db.DateTime)
 	user_id = db.Column(db.BigInteger)
 	facility = db.relationship('Facility', backref='toilet', lazy='dynamic')
+	image = db.relationship('Image', backref='toilet', lazy='dynamic')
 
 	# data transfer object to form JSON
 	def dto(self):
@@ -78,3 +79,17 @@ class Rating(db.Model):
 				user_id = self.user_id,
 				overall_rating = self.overall_rating,
 				rated_on = self.rated_on)
+
+class Image(db.Model):
+	image_id = db.Column(db.BigInteger, primary_key=True)
+	toilet_id = db.Column(db.BigInteger, db.ForeignKey('toilet.toilet_id'))
+	user_id = db.Column(db.BigInteger)
+	added_on = db.Column(db.DateTime)
+
+	# data transfer object to form JSON
+	def dto(self):
+		return dict(
+				image_id = self.image_id,
+				toilet_id = self.toilet_id,
+				user_id = self.user_id,
+				added_on = self.added_on)

@@ -1,6 +1,6 @@
 # do not change or move the following lines if you still want to use the box.py auto generator
 from app import app, db
-from models import Toilet, User, Facility, Rating
+from models import Toilet, User, Facility, Rating, Image
 
 # you can freely change the lines below
 from flask import render_template
@@ -12,6 +12,7 @@ from flask import request
 from flask import abort
 from flask import Response
 from config import SQLALCHEMY_DATABASE_URI
+from subprocess import call
 import sqlalchemy
 import logging
 import datetime
@@ -19,8 +20,11 @@ import hashlib
 import math
 import os
 # define global variables here
+
 basedir = os.path.abspath(os.path.dirname(__file__))
-upload_path = os.path.join(basedir, 'app/static/')
+base_url = 'http://192.168.2.1:5000/'
+upload_folder = os.path.join(basedir, 'static/tmp/')
+
 # define functions here
 def distance(point1, point2):
 	lat1, lon1, lat2, lon2 = map(math.radians, [float(point1[0]), float(point1[1]), float(point2[0]), float(point2[1])])
@@ -48,7 +52,6 @@ def multikeysort(items, columns):
 def index():
 	# define your controller here
 	return render_template('index.html')
-
 
 ########### toilet data model controllers area ###########
 @app.route('/search/<latlong_string>')
@@ -103,21 +106,31 @@ def toilet_view_controller():
 
 	return render_template('toilet.html',toilet_entries = toilet_entries)
 
-@app.route('/toilet/<inputid>')
+@app.route('/toilet/<inputid>.json')
 def get_single_toilet(inputid):
 	single_toilet = Toilet.query.filter(Toilet.toilet_id == inputid).first()
 	if single_toilet:
 		toilet = single_toilet.dto()
-		facility_list = single_toilet.facility.one()
-		logging.error(facility_list)
+		facility_list = single_toilet.facility.first()
 		if facility_list:
 			facility = facility_list.dto()
 		else:
 			facility = None
+		image_list = single_toilet.image.first()
+		if image_list:
+			logging.error(image_list)
+			full_image = base_url + 'static/upload/' + str(image_list.image_id) + '.jpg'
+			thumb_image = base_url + 'static/thumb/' + str(image_list.image_id) + '.jpg'
+		else:
+			full_image = None
+			thumb_image = None
+			# image = None
+		total_rate = Rating.query.filter(Rating.toilet_id == inputid).all()
+		totnum  = len(total_rate)
 	else:
 		toilet = None
 		facility = None
-	result = json.dumps(dict(toilet=toilet,facility=facility))
+	result = json.dumps(dict(toilet=toilet,facility=facility,total_vote=totnum,full_image=full_image,thumb_image=thumb_image))
 	return result
 
 @app.route('/toilet/add/')
@@ -392,13 +405,6 @@ def facility_delete_controller(id):
 
 ########### rating data model controllers area ###########
 
-@app.route('/testing/')
-def data_testing():
-	
-	logging.error(avg)
-	return 'test on progress'
-
-
 @app.route('/data/rating/')
 def data_rating():
 	# this is the controller for JSON data access
@@ -423,10 +429,7 @@ def rating_view_controller():
 
 	return render_template('rating.html',rating_entries = rating_entries)
 
-# @app.route('/rating/add/')
-# def rating_add_controller():
-# 	#this is the controller to add new model entries
-# 	return render_template('rating_add.html')
+
 
 @app.route('/rating/create/',methods=['POST','GET'])
 def rating_create_data_controller():
@@ -445,7 +448,7 @@ def rating_create_data_controller():
 	db.session.add(new_rating)
 	db.session.commit()
 
-	avg = db.session.query(sqlalchemy.func.avg(Rating.overall_rating).label('average')).filter(Rating.toilet_id == 2).first()
+	avg = db.session.query(sqlalchemy.func.avg(Rating.overall_rating).label('average')).filter(Rating.toilet_id == toilet_id).first()
 	change_toilet_rating = Rating.query.filter(Toilet.toilet_id == toilet_id).first()
 	change_toilet_rating.toilet_current_rating = avg
 	
@@ -453,6 +456,98 @@ def rating_create_data_controller():
 	db.session.commit()
 	
 	return 'rating process done'
+
+
+
+########### image data model controllers area ###########
+
+@app.route('/data/image/')
+def data_image():
+	# this is the controller for JSON data access
+	image_list = Image.query.all()
+
+	if image_list:
+		json_result = json.dumps([image.dto() for image in image_list])
+	else:
+		json_result = None
+
+	return json_result
+
+@app.route('/image/')
+def image_view_controller():
+	#this is the controller to view all data in the model
+	image_list = Image.query.all()
+
+	if image_list:
+		image_entries = [image.dto() for image in image_list]
+	else:
+		image_entries = None
+
+	return render_template('image.html',image_entries = image_entries)
+
+@app.route('/image/add/')
+def image_add_controller():
+	#this is the controller to add new model entries
+	return render_template('image_add.html')
+
+@app.route('/image/create/',methods=['POST','GET'])
+def image_create_data_controller():
+	# this is the image data create handler
+	toilet_id = request.values.get('toilet_id')
+	user_id = request.values.get('user_id')
+	file = request.files.get('file').read()
+	if file:
+		open(upload_folder+toilet_id+'.jpg','wb').write(file)
+
+		new_image = Image(
+						toilet_id = toilet_id,
+						user_id = user_id,
+						added_on = datetime.datetime.now()
+					)
+		db.session.add(new_image)
+		db.session.commit()
+		call(['python', 'thumb_create.py',toilet_id])
+		return 'data input successful <a href="/image/">back to Entries</a>'
+	else:
+		return 'upload failed'
+
+@app.route('/image/edit/<id>')
+def image_edit_controller(id):
+	#this is the controller to edit model entries
+	image_item = Image.query.filter(Image.id == id).first()
+	return render_template('image_edit.html', image_item = image_item)
+
+@app.route('/image/update/<id>',methods=['POST','GET'])
+def image_update_data_controller(id):
+	# this is the image data update handler
+	toilet_id = request.values.get('toilet_id')
+	user_id = request.values.get('user_id')
+	added_on = request.values.get('added_on')
+	image_item = Image.query.filter(Image.image_id == id).first()
+	image_item.toilet_id = toilet_id
+	image_item.user_id = user_id
+	image_item.added_on = added_on
+
+	db.session.add(image_item)
+	db.session.commit()
+
+	return 'data update successful <a href="/image/">back to Entries</a>'
+
+@app.route('/image/delete/<id>')
+def image_delete_controller(id):
+	#this is the controller to delete model entries
+	image_item = Image.query.filter(Image.image_id == id).first()
+
+	db.session.delete(image_item)
+	db.session.commit()
+
+	return 'data deletion successful <a href="/image/">back to Entries</a>'
+
+
+# @app.route('/rating/add/')
+# def rating_add_controller():
+# 	#this is the controller to add new model entries
+# 	return render_template('rating_add.html')
 
 # @app.route('/rating/edit/<id>')
 # def rating_edit_controller(id):
@@ -474,7 +569,7 @@ def rating_create_data_controller():
 # 	db.session.add(rating_item)
 # 	db.session.commit()
 
-	return 'data update successful <a href="/rating/">back to Entries</a>'
+#	return 'data update successful <a href="/rating/">back to Entries</a>'
 
 # @app.route('/rating/delete/<id>')
 # def rating_delete_controller(id):
@@ -484,5 +579,5 @@ def rating_create_data_controller():
 # 	db.session.delete(rating_item)
 # 	db.session.commit()
 
-	return 'data deletion successful <a href="/rating/">back to Entries</a>'
+#	return 'data deletion successful <a href="/rating/">back to Entries</a>'
 
