@@ -1,6 +1,6 @@
-<!doctype html>
-<html>	<head><title>Toilet Entries</title></head>
-	<body>
+{% extends "base.html" %}
+    {% block title %}Toilet Entries{% endblock %}
+    {% block content %}
 		<h1>Add new Toilet Entries.</h1>
 		<form name="toilet_add" method="post" action="/toilet/create/">
 		<table>
@@ -38,5 +38,4 @@
 				</tr>
 		</table>
 		</form>
-	</body>
-</html>
+	{% endblock %}

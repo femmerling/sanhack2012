@@ -1,6 +1,6 @@
-<!doctype html>
-<html>	<head><title>Facility Entries</title></head>
-	<body>
+{% extends "base.html" %}
+    {% block title %}Facility Entries{% endblock %}
+    {% block content %}
 		<h1>List of Facility Entries.</h1>
 		<table>
 			<thead>
@@ -37,5 +37,4 @@
 		You have no entries yet
 			{% endif %}
 			<b><a href="/facility/add">Add new entry</a></b>
-	</body>
-</html>
+    {% endblock %}

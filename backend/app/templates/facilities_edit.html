@@ -1,13 +1,10 @@
-<!doctype html>
-<html>	<head><title>Edit Facilities Entries</title></head>
-	<body>
+{% extends "base.html" %}
+    {% block title %}Facilities Entries{% endblock %}
+    {% block content %}
 		<h1>Edit Facilities Entries.</h1>
 		<form name="facilities_add" method="post" action="/facilities/update/{{ facilities_item.id }}">
+            <input type="hidden" name="toilet_id" value="{{ facilities_item.toilet_id }}"/>
 		<table>
-				<tr>
-					<td>Toilet_Id:</td>
-					<td><input type="text" name="toilet_id" value="{{ facilities_item.toilet_id }}"/></td>
-				</tr>
 				<tr>
 					<td>Shower:</td>
 					<td><input type="text" name="shower" value="{{ facilities_item.shower }}"/></td>
@@ -17,11 +14,11 @@
 					<td><input type="text" name="soap" value="{{ facilities_item.soap }}"/></td>
 				</tr>
 				<tr>
-					<td>Toilet_Paper:</td>
+					<td>Toilet Paper:</td>
 					<td><input type="text" name="toilet_paper" value="{{ facilities_item.toilet_paper }}"/></td>
 				</tr>
 				<tr>
-					<td>Hand_Drier:</td>
+					<td>Hand Dryer:</td>
 					<td><input type="text" name="hand_drier" value="{{ facilities_item.hand_drier }}"/></td>
 				</tr>
 				<tr>
@@ -34,5 +31,4 @@
 				</tr>
 		</table>
 		</form>
-	</body>
-</html>
+    {% endblock %}

@@ -1,13 +1,10 @@
-<!doctype html>
-<html>	<head><title>Edit Facility Entries</title></head>
-	<body>
+{% extends "base.html" %}
+    {% block title %}Facility Entries{% endblock %}
+    {% block content %}
 		<h1>Edit Facility Entries.</h1>
 		<form name="facility_add" method="post" action="/facility/update/{{ facility_item.id }}">
+        <input type="hidden" name="toilet_id" value="{{ facility_item.toilet_id }}"/>
 		<table>
-				<tr>
-					<td>Toilet_Id:</td>
-					<td><input type="text" name="toilet_id" value="{{ facility_item.toilet_id }}"/></td>
-				</tr>
 				<tr>
 					<td>Shower:</td>
 					<td><input type="text" name="shower" value="{{ facility_item.shower }}"/></td>
@@ -38,5 +35,4 @@
 				</tr>
 		</table>
 		</form>
-	</body>
-</html>
+    {% endblock %}

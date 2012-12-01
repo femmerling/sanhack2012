@@ -1,6 +1,6 @@
-<!doctype html>
-<html>	<head><title>Facility Entries</title></head>
-	<body>
+{% extends "base.html" %}
+    {% block title %}Facility Entries{% endblock %}
+    {% block content %}
 		<h1>Add new Facility Entries.</h1>
 		<form name="facility_add" method="post" action="/facility/create/">
 		<table>
@@ -38,5 +38,4 @@
 				</tr>
 		</table>
 		</form>
-	</body>
-</html>
+    {% endblock %}

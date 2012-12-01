@@ -1,6 +1,6 @@
-<!doctype html>
-<html>	<head><title>Edit User Entries</title></head>
-	<body>
+{% extends "base.html" %}
+    {% block title %}User Entries{% endblock %}
+    {% block content %}
 		<h1>Edit User Entries.</h1>
 		<form name="user_add" method="post" action="/user/update/{{ user_item.id }}">
 		<table>
@@ -30,5 +30,4 @@
 				</tr>
 		</table>
 		</form>
-	</body>
-</html>
+     {% endblock %}

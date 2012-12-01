@@ -1,6 +1,6 @@
-<!doctype html>
-<html>	<head><title>User Entries</title></head>
-	<body>
+{% extends "base.html" %}
+    {% block title %}User Entries{% endblock %}
+    {% block content %}
 		<h1>Add new User Entries.</h1>
 		<form name="user_add" method="post" action="/user/create/">
 		<table>
@@ -30,5 +30,4 @@
 				</tr>
 		</table>
 		</form>
-	</body>
-</html>
+    {% endblock %}

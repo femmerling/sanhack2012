@@ -1,6 +1,6 @@
-<!doctype html>
-<html>	<head><title>User Entries</title></head>
-	<body>
+{% extends "base.html" %}
+    {% block title %}User Entries{% endblock %}
+    {% block content %}
 		<h1>List of User Entries.</h1>
 		<table>
 			<thead>
@@ -35,5 +35,4 @@
 		You have no entries yet
 			{% endif %}
 			<b><a href="/user/add">Add new entry</a></b>
-	</body>
-</html>
+	{% endblock %}
