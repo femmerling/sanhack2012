@@ -2,22 +2,23 @@
     {% block title %}Toilet Entries{% endblock %}
     {% block content %}
 		<h1>List of Toilet Entries.</h1>
-		<table>
+        {% if toilet_entries %}
+		<table class="table-striped" >
 			<thead>
 				<tr>
 					<td><b>ID</td>
-					<td><b>Toilet_Name</b></td>
-					<td><b>Toilet_Lat</b></td>
-					<td><b>Toilet_Long</b></td>
-					<td><b>Toilet_Address</b></td>
-					<td><b>Toilet_Current_Rating</b></td>
-					<td><b>Added_On</b></td>
+					<td><b>Name</b></td>
+					<td><b>Lat</b></td>
+					<td><b>Long</b></td>
+					<td><b>Address</b></td>
+					<td><b>Rating</b></td>
+					<td><b>Added On</b></td>
 					<td><b>User_Id</b></td>
-					<td><b> </td>
-					<td><b> </td>
+					<td><b>&nbsp;</td>
+					<td><b>&nbsp;</td>
 				</tr>
 			</thead>
-			{% if toilet_entries %}
+			
 			<tbody>
 			{% for entry in toilet_entries %}
 				<tr>
@@ -29,8 +30,8 @@
 					<td>{{ entry.toilet_current_rating }}</td>
 					<td>{{ entry.added_on }}</td>
 					<td>{{ entry.user_id }}</td>
-					<td><a href="/toilet/edit/{{ entry.id }}">Edit</a></td>
-					<td><a href="/toilet/delete/{{ entry.id }}">Delete</a></td>
+					<td><a class="btn" href="/toilet/edit/{{ entry.id }}">Edit</a></td>
+					<td><a class="btn" href="/toilet/delete/{{ entry.id }}">Delete</a></td>
 				</tr>
 			{% endfor %}
 			</tbody>
@@ -38,5 +39,5 @@
 			{% else %}
 		You have no entries yet
 			{% endif %}
-			<b><a href="/toilet/add">Add new entry</a></b>
+			<b><a class="btn btn-primary" href="/toilet/add">Add new entry</a></b>
 	{% endblock %}

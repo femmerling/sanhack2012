@@ -2,6 +2,7 @@
     {% block title %}Facilities Entries{% endblock %}
     {% block content %}
 		<h1>List of Facilities Entries.</h1>
+        {% if facilities_entries %}
 		<table>
 			<thead>
 				<tr>
@@ -17,7 +18,7 @@
 					<td><b> </td>
 				</tr>
 			</thead>
-			{% if facilities_entries %}
+			
 			<tbody>
 			{% for entry in facilities_entries %}
 				<tr>
@@ -29,8 +30,8 @@
 					<td>{{ entry.hand_drier }}</td>
 					<td>{{ entry.towel }}</td>
 					<td>{{ entry.wash_basin }}</td>
-					<td><a href="/facilities/edit/{{ entry.facilities_id }}">Edit</a></td>
-					<td><a href="/facilities/delete/{{ entry.facilities_id }}">Delete</a></td>
+					<td><a class="btn" href="/facilities/edit/{{ entry.facilities_id }}">Edit</a></td>
+					<td><a class="btn" href="/facilities/delete/{{ entry.facilities_id }}">Delete</a></td>
 				</tr>
 			{% endfor %}
 			</tbody>
@@ -38,5 +39,5 @@
 			{% else %}
 		You have no entries yet
 			{% endif %}
-			<b><a href="/facilities/add">Add new entry</a></b>
+			<b><a class="btn btn-primary" href="/facilities/add">Add new entry</a></b>
     {% endblock %}
