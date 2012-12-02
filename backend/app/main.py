@@ -148,15 +148,15 @@ def toilet_add_controller():
 	return render_template('toilet_add.html')
 
 @app.route('/toilet/create/<toilet_name>/<toilet_lat>/<toilet_long>/<toilet_address>/<toilet_current_rating>/<toilet_type>/<user_id>',methods=['POST','GET'])
-def toilet_create_data_controller():
+def toilet_create_data_controller(toilet_name,toilet_lat,toilet_long,toilet_address,toilet_current_rating,toilet_type,user_id):
 	# this is the toilet data create handler
-	toilet_name = request.values.get('toilet_name')
-	toilet_lat = request.values.get('toilet_lat')
-	toilet_long = request.values.get('toilet_long')
-	toilet_address = request.values.get('toilet_address')
-	toilet_current_rating = request.values.get('toilet_current_rating')
-	toilet_type = request.values.get('toilet_type')
-	user_id = request.values.get('user_id')
+	# toilet_name = request.values.get('toilet_name')
+	# toilet_lat = request.values.get('toilet_lat')
+	# toilet_long = request.values.get('toilet_long')
+	# toilet_address = request.values.get('toilet_address')
+	# toilet_current_rating = request.values.get('toilet_current_rating')
+	# toilet_type = request.values.get('toilet_type')
+	# user_id = request.values.get('user_id')
 
 	new_toilet = Toilet(
 									toilet_name = toilet_name,
