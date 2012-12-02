@@ -2,14 +2,14 @@ from app import db
 
 class Toilet(db.Model):
 	toilet_id = db.Column(db.BigInteger, primary_key=True)
-	toilet_name = db.Column(db.String(50))
-	toilet_lat = db.Column(db.String(50))
-	toilet_long = db.Column(db.String(50))
-	toilet_address = db.Column(db.String(100))
-	toilet_current_rating = db.Column(db.Float)
-	toilet_type = db.Column(db.Integer)
+	toilet_name = db.Column(db.String(50), default="")
+	toilet_lat = db.Column(db.String(50), default="")
+	toilet_long = db.Column(db.String(50),default="")
+	toilet_address = db.Column(db.String(100),default="")
+	toilet_current_rating = db.Column(db.Float,default=0.0)
+	toilet_type = db.Column(db.Integer,default=2)
 	added_on = db.Column(db.DateTime)
-	user_id = db.Column(db.BigInteger)
+	user_id = db.Column(db.BigInteger,default=1)
 	facility = db.relationship('Facility', backref='toilet', lazy='dynamic')
 	image = db.relationship('Image', backref='toilet', lazy='dynamic')
 

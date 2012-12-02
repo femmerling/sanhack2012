@@ -172,7 +172,7 @@ def toilet_create_data_controller():
 	db.session.add(new_toilet)
 	db.session.commit()
 
-	return 'data input successful <a href="/toilet/">back to Entries</a>'
+	return str(new_toilet.toilet_id)
 
 @app.route('/toilet/edit/<id>')
 def toilet_edit_controller(id):
