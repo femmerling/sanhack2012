@@ -4,15 +4,23 @@
     <h1>Statistics</h1>
     <table class="table table-hover">
     <tr>
-        <td># Toilet:</td>
+        <td># Toilet: {{ statistics.toilet_total }}</td>
     	<td></td>
     </tr>
     <tr>
-        <td># User:</td>
+        <td># User: {{ statistics.total_user }}</td>
     	<td></td>
     </tr>
     <tr>
-        <td>Average Rating:</td>
+        <td>Average Rating: {{ "%.2f" % statistics.toilet_avg }}</td>
+    	<td></td>
+    </tr>
+    <tr>
+        <td>Average Rating: {{ statistics.max_rating }}</td>
+    	<td></td>
+    </tr>
+    <tr>
+        <td>Average Rating: {{ statistics.min_rating }}</td>
     	<td></td>
     </tr>
     </table>

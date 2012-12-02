@@ -3,17 +3,15 @@
     {% block content %}
 		<h1>List of User Entries.</h1>
         {% if user_entries %}
-		<table class="table-bordered">
+		<table class="table table-bordered">
 			<thead>
 				<tr>
-					<td><b>ID</td>
-					<td><b>First_Name</b></td>
-					<td><b>Last_Name</b></td>
-					<td><b>Email</b></td>
-					<td><b>Password</b></td>
-					<td><b>Registered_On</b></td>
-					<td><b>&nbsp;</td>
-					<td><b>&nbsp;</td>
+					<th>ID</th>
+					<th>First_Name</th>
+					<th>Last_Name</th>
+					<th>Email</th>
+					<th>Registered_On</th>
+					<th colspan="2">&nbsp;</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -23,7 +21,6 @@
 					<td>{{ entry.first_name }}</td>
 					<td>{{ entry.last_name }}</td>
 					<td>{{ entry.email }}</td>
-					<td>{{ entry.password }}</td>
 					<td>{{ entry.registered_on }}</td>
 					<td><a class="btn" href="/user/edit/{{ entry.id }}">Edit</a></td>
 					<td><a class="btn" href="/user/delete/{{ entry.id }}">Delete</a></td>
