@@ -147,7 +147,7 @@ def toilet_add_controller():
 	#this is the controller to add new model entries
 	return render_template('toilet_add.html')
 
-@app.route('/toilet/create/<toilet_name>/<toilet_lat>/<toilet_long>/',methods=['POST','GET'])
+@app.route('/toilet/create/<toilet_name>/<toilet_lat>/<toilet_long>/<toilet_address>/<toilet_current_rating>/<toilet',methods=['POST','GET'])
 def toilet_create_data_controller():
 	# this is the toilet data create handler
 	toilet_name = request.values.get('toilet_name')
@@ -464,7 +464,7 @@ def rating_create_data_controller(toilet_id,user_id,overall_rating):
 	db.session.add(new_rating)
 	avg = db.session.query(sqlalchemy.func.avg(Rating.overall_rating).label('average')).filter(Rating.toilet_id == toilet_id).one()
 	db.session.commit()
-	console.log(str(avg[0]))
+	logging.error(str(avg[0]))
 	result = str(avg[0])
 	return result
 	# toilet_item = Toilet.query.filter(Toilet.toilet_id == toilet_id).first()
