@@ -59,12 +59,14 @@ def search_toilet(latlong_string):
 	toilets = []
 	latlong = latlong_string.split(',')
 	toilet_list = Toilet.query.all()
-	for toilet in toilet_list:
+	logging.error(repr(latlong)+' '+str(len(toilet_list)))
+	for i,toilet in enumerate(toilet_list):
 		toilet_detail = {}
 		db_pair = []
 		db_pair.append(toilet.toilet_lat)
 		db_pair.append(toilet.toilet_long)
 		delta = distance(latlong,db_pair)
+		logging.error(str(i)+' '+repr(db_pair))
 		if delta <= 1:
 			toilet_detail['toilet_id'] = toilet.toilet_id
 			toilet_detail['toilet_name'] = toilet.toilet_name
