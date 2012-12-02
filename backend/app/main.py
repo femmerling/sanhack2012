@@ -614,7 +614,8 @@ def dashboard_controller():
 	min_toilet_rating = db.session.query(sqlalchemy.func.min(Rating.overall_rating).label('max')).first()
 	total_users = db.session.query(sqlalchemy.func.count(User.user_id).label('total_user')).first()
 	total_rating = db.session.query(sqlalchemy.func.count(Rating.rating_id).label('total_rating')).first()
+	toilet_list = Toilet.query.all()
 	#this is the controller to display aggregated data
-	statistics = json.dumps(dict(toilet_avg=average_toilet_rating[0],toilet_total=total_toilet_amount[0],max_rating=max_toilet_rating[0],min_rating = min_toilet_rating[0],total_user=total_users[0],total_rating = total_rating[0]))
-	#return render_template('dashboard.html',statistics = statistics)
-	return str(statistics)
+	statistics = dict(toilet_avg=average_toilet_rating[0],toilet_total=total_toilet_amount[0],max_rating=max_toilet_rating[0],min_rating = min_toilet_rating[0],total_user=total_users[0],total_rating = total_rating[0])
+	toilets=json.dumps([toilet.dto() for toilet in toilet_list])
+	return render_template('dashboard.html',statistics=statistics,toilets=toilets)
