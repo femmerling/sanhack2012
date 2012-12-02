@@ -607,5 +607,14 @@ def rating_add_controller():
 
 @app.route('/dashboard/')
 def dashboard_controller():
+	average_toilet_rating = db.session.query(sqlalchemy.func.avg(Rating.overall_rating).label('average')).first()
+	logging.error(average_toilet_rating)
+	total_toilet_amount = db.session.query(sqlalchemy.func.count(Toilet.toilet_id).label('total_toilet')).first()
+	max_toilet_rating = db.session.query(sqlalchemy.func.max(Rating.overall_rating).label('max')).first()
+	min_toilet_rating = db.session.query(sqlalchemy.func.min(Rating.overall_rating).label('max')).first()
+	total_users = db.session.query(sqlalchemy.func.count(User.user_id).label('total_user')).first()
+	total_rating = db.session.query(sqlalchemy.func.count(Rating.rating_id).label('total_rating')).first()
 	#this is the controller to display aggregated data
-	return render_template('dashboard.html')
+	statistics = json.dumps(dict(toilet_avg=average_toilet_rating[0],toilet_total=total_toilet_amount[0],max_rating=max_toilet_rating[0],min_rating = min_toilet_rating[0],total_user=total_users[0],total_rating = total_rating[0]))
+	#return render_template('dashboard.html',statistics = statistics)
+	return str(statistics)
