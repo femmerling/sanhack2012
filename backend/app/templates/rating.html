@@ -1,19 +1,19 @@
-<!doctype html>
-<html>	<head><title>Rating Entries</title></head>
-	<body>
+{% extends "base.html" %}
+{% block title %}Rating Entries{% endblock %}
+	{% block content %}
 		<h1>List of Rating Entries.</h1>
-		<table>
+        {% if rating_entries %}
+		<table class="table table-bordered">
 			<thead>
 				<tr>
-					<td><b>ID</td>
-					<td><b>User_Id</b></td>
-					<td><b>Overall_Rating</b></td>
-					<td><b>Rated_On</b></td>
-					<td><b> </td>
-					<td><b> </td>
+					<td>ID</td>
+					<td>User ID</td>
+					<td>Overall Rating</td>
+					<td>Rated on</td>
+					<td colspan="2">&nbsp;</td>
 				</tr>
 			</thead>
-			{% if rating_entries %}
+			
 			<tbody>
 			{% for entry in rating_entries %}
 				<tr>
@@ -30,6 +30,5 @@
 			{% else %}
 		You have no entries yet
 			{% endif %}
-			<b><a href="/rating/add">Add new entry</a></b>
-	</body>
-</html>
+			<a class="btn btn-primary" href="/rating/add">Add new entry</a>
+	{% endblock %}

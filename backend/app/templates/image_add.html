@@ -1,7 +1,7 @@
-<!doctype html>
-<html>	<head><title>Image Entries</title></head>
-	<body>
-		<h1>Add new Image Entries.</h1>
+{% extends "base.html" %}
+    {% block title %}Image Entries{% endblock %}
+    {% block content %}
+		<h1>Add new Image Entries</h1>
 		<form name="image_add" method="post" action="/image/create/" enctype="multipart/form-data">
 		<table>
 				<tr>
@@ -9,22 +9,21 @@
 					<td><input type="file" name="file"/></td>
 				</tr>
 				<tr>
-					<td>Toilet_Id:</td>
+					<td>Toilet ID:</td>
 					<td><input type="text" name="toilet_id"/></td>
 				</tr>
 				<tr>
-					<td>User_Id:</td>
+					<td>User ID:</td>
 					<td><input type="text" name="user_id"/></td>
 				</tr>
 				<tr>
-					<td>Added_On:</td>
+					<td>Added on:</td>
 					<td><input type="text" name="added_on"/></td>
 				</tr>
 				<tr>
-					<td><input type="submit" name="submit" value="Add Entry"/></td>
+					<td><input class="btn" type="submit" name="submit" value="Add Entry"/></td>
 					<td> </td>
 				</tr>
 		</table>
 		</form>
-	</body>
-</html>
+	{% endblock %}

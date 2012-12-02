@@ -1,19 +1,19 @@
-<!doctype html>
-<html>	<head><title>Image Entries</title></head>
-	<body>
+{% extends "base.html" %}
+    {% block title %}Image Entries{% endblock %}
+    {% block content %}
 		<h1>List of Image Entries.</h1>
+        {% if image_entries %}
 		<table>
 			<thead>
 				<tr>
-					<td><b>ID</td>
-					<td><b>Toilet_Id</b></td>
-					<td><b>User_Id</b></td>
-					<td><b>Added_On</b></td>
-					<td><b> </td>
-					<td><b> </td>
+					<td>ID</td>
+					<td>Toilet ID</td>
+					<td>User ID</td>
+					<td>Added on</td>
+					<td colspan="2"></td>
 				</tr>
 			</thead>
-			{% if image_entries %}
+			
 			<tbody>
 			{% for entry in image_entries %}
 				<tr>
@@ -21,8 +21,8 @@
 					<td>{{ entry.toilet_id }}</td>
 					<td>{{ entry.user_id }}</td>
 					<td>{{ entry.added_on }}</td>
-					<td><a href="/image/edit/{{ entry.image_id }}">Edit</a></td>
-					<td><a href="/image/delete/{{ entry.image_id }}">Delete</a></td>
+					<td><a class="btn" href="/image/edit/{{ entry.image_id }}">Edit</a></td>
+					<td><a class="btn" href="/image/delete/{{ entry.image_id }}">Delete</a></td>
 				</tr>
 			{% endfor %}
 			</tbody>
@@ -30,6 +30,5 @@
 			{% else %}
 		You have no entries yet
 			{% endif %}
-			<b><a href="/image/add">Add new entry</a></b>
-	</body>
-</html>
+			<b><a class="btn btn-primary" href="/image/add">Add new entry</a></b>
+	{% endblock %}
