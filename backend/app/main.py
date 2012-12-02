@@ -47,6 +47,11 @@ def multikeysort(items, columns):
             return 0
     return sorted(items, cmp=comparer)
 
+def update_overall_rating(toilet_id,avg):
+	the_toilet = Toilet.query.filter(Toilet.toilet_id==toilet_id).one()
+	the_toilet.toilet_current_rating = avg
+	db.session.add(the_toilet)
+	db.session.commit()
 # home root controller
 @app.route('/')
 def index():
@@ -149,14 +154,6 @@ def toilet_add_controller():
 
 @app.route('/toilet/create/<toilet_name>/<toilet_lat>/<toilet_long>/<toilet_address>/<toilet_current_rating>/<toilet_type>/<user_id>',methods=['POST','GET'])
 def toilet_create_data_controller(toilet_name,toilet_lat,toilet_long,toilet_address,toilet_current_rating,toilet_type,user_id):
-	# this is the toilet data create handler
-	# toilet_name = request.values.get('toilet_name')
-	# toilet_lat = request.values.get('toilet_lat')
-	# toilet_long = request.values.get('toilet_long')
-	# toilet_address = request.values.get('toilet_address')
-	# toilet_current_rating = request.values.get('toilet_current_rating')
-	# toilet_type = request.values.get('toilet_type')
-	# user_id = request.values.get('user_id')
 	toilet_name = toilet_name.replace('+',' ')
 	toilet_address = toilet_address.replace('+',' ')
 	new_toilet = Toilet(
@@ -464,8 +461,9 @@ def rating_create_data_controller(toilet_id,user_id,overall_rating):
 
 	db.session.add(new_rating)
 	db.session.commit()
+
 	avg = db.session.query(sqlalchemy.func.avg(Rating.overall_rating).label('average')).filter(Rating.toilet_id == toilet_id).first()
-	logging.error(str(avg[0]))
+	update_overall_rating(toilet_id,avg[0])
 	result = str(avg[0])
 	return result
 	# toilet_item = Toilet.query.filter(Toilet.toilet_id == toilet_id).first()
