@@ -157,7 +157,8 @@ def toilet_create_data_controller(toilet_name,toilet_lat,toilet_long,toilet_addr
 	# toilet_current_rating = request.values.get('toilet_current_rating')
 	# toilet_type = request.values.get('toilet_type')
 	# user_id = request.values.get('user_id')
-
+	toilet_name = toilet_name.replace('+',' ')
+	toilet_address = toilet_address.replace('+',' ')
 	new_toilet = Toilet(
 									toilet_name = toilet_name,
 									toilet_lat = toilet_lat,
