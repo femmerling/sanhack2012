@@ -8,6 +8,7 @@
     </title>
     <link rel="stylesheet" href="/static/css/bootstrap.css" type="text/css" />
     <link rel="stylesheet" href="/static/css/bootstrap-responsive.css" type="text/css" />
+    <link rel="stylesheet" href="/static/css/star.css" type="text/css" />
     <meta name="DESCRIPTION" content="Toilet Finder Application" />
     <meta name="KEYWORD" content="toilet,location,search,sanitation,hackathon,sanhack2012" />
     <meta name="Robots" content="all,index,follow" />
@@ -49,14 +50,13 @@
       </div>
       <br/>
       <div class="row">
-        <div class="well">
         {% block footer %}{% endblock %}
-        </div>
       </div>
     </div>
     <script type="text/javascript" src="/static/js/json2.js"></script>
     <script type="text/javascript" src="/static/js/jquery-1.7.2.min.js"></script>
     <script type="text/javascript" src="/static/js/knockout-2.1.0.js"></script>
+    <script type="text/javascript" src="/static/js/vote.js"></script>
     {% block addon %}{% endblock %}
   </body>
 </html>

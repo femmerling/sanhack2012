@@ -107,7 +107,7 @@ def toilet_view_controller():
 	return render_template('toilet.html',toilet_entries = toilet_entries)
 
 def get_single_toilet(inputid):
-	base_url = request.environ.get('wsgi.url_scheme')+"://"+request.environ.get('HTTP_HOST')
+	base_url = request.url_root
 	single_toilet = Toilet.query.filter(Toilet.toilet_id == inputid).first()
 	if single_toilet:
 		toilet = single_toilet.dto()
@@ -118,11 +118,11 @@ def get_single_toilet(inputid):
 			facility = None
 		image_list = single_toilet.image.first()
 		if image_list:
-			full_image = base_url + '/static/img/large/' + str(image_list.image_id) + '.jpg'
-			thumb_image = base_url + '/static/img/thumb/' + str(image_list.image_id) + '.jpg'
+			full_image = base_url + 'static/img/large/' + str(image_list.image_id) + '.jpg'
+			thumb_image = base_url + 'static/img/thumb/' + str(image_list.image_id) + '.jpg'
 		else:
-			full_image = base_url + '/static/img/large/1.jpg'
-			thumb_image = base_url + '/static/img/thumb/1.jpg'
+			full_image = base_url + 'static/img/large/1.jpg'
+			thumb_image = base_url + 'static/img/thumb/1.jpg'
 			# image = None
 		total_rate = Rating.query.filter(Rating.toilet_id == inputid).all()
 		totnum  = len(total_rate)
