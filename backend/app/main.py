@@ -147,7 +147,7 @@ def toilet_add_controller():
 	#this is the controller to add new model entries
 	return render_template('toilet_add.html')
 
-@app.route('/toilet/create/<toilet_name>/<toilet_lat>/<toilet_long>/<toilet_address>/<toilet_current_rating>/<toilet',methods=['POST','GET'])
+@app.route('/toilet/create/<toilet_name>/<toilet_lat>/<toilet_long>/<toilet_address>/<toilet_current_rating>/<toilet_type>/<user_id>',methods=['POST','GET'])
 def toilet_create_data_controller():
 	# this is the toilet data create handler
 	toilet_name = request.values.get('toilet_name')
