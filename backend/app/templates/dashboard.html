@@ -44,20 +44,17 @@
     
               var latlng = new google.maps.LatLng(-6.36519,106.82973);
               var myOptions = {
-                zoom: 10,
+                zoom: 15,
                 center: latlng,
                 mapTypeControl: false,
                 navigationControlOptions: {style: google.maps.NavigationControlStyle.SMALL},
                 mapTypeId: google.maps.MapTypeId.ROADMAP
               };
               map = new google.maps.Map(document.getElementById("mapcanvas"), myOptions);
-              /*
-              var marker = new google.maps.Marker({
-                  position: latlng, 
-                  map: map, 
-                  title:"there!"
-              });
-              */
+              
+              {% for t in toilets %}
+                var marker = new google.maps.Marker({ position: new google.maps.LatLng({{t.toilet_lat }},{{t.toilet_long }}), map: map, title:"{{t.toilet_name }}" });
+              {% endfor %}
     
     </script>
     {% endblock %}
