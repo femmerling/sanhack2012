@@ -453,7 +453,7 @@ def rating_create_data_controller(toilet_id,user_id,overall_rating):
 	toilet_id = request.values.get('toilet_id')
 	user_id = request.values.get('user_id')
 	overall_rating = request.values.get('overall_rating')
-
+	avg = db.session.query(sqlalchemy.func.avg(Rating.overall_rating).label('average')).filter(Rating.toilet_id == toilet_id).one()
 	new_rating = Rating(
 									toilet_id = toilet_id,
 									user_id = user_id,
@@ -462,17 +462,17 @@ def rating_create_data_controller(toilet_id,user_id,overall_rating):
 								)
 
 	db.session.add(new_rating)
-	db.session.commit()
 
-	avg = db.session.query(sqlalchemy.func.avg(Rating.overall_rating).label('average')).filter(Rating.toilet_id == toilet_id).one()
+
+	
 	result = str(avg[0])
 	toilet_item = Toilet.query.filter(Toilet.toilet_id == toilet_id).first()
+	logging.error(toilet_item)
 	if toilet_item:
 		toilet_item.toilet_current_rating = result
 	
 		db.session.add(toilet_item)
 		db.session.commit()
-	
 		return result
 
 	else:
