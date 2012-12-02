@@ -22,16 +22,16 @@
           <div class="nav-collapse collapse">
             <ul class="nav">
               <li class="">
-                <a href="/">Home</a>
+                <a href="/"><i class="icon-home"></i> Home</a>
               </li>
               <li class="">
-                <a href="/toilet/">Toilets</a>
+                <a href="/toilet/"><i class="icon-eject"></i> Toilets</a>
               </li>
               <li class="">
-                <a href="/user/">Users</a>
+                <a href="/user/"><i class="icon-user"></i> Users</a>
               </li>
               <li>
-                <a href="/dashboard/">Dashboard</a>
+                <a href="/dashboard/"><i class="icon-globe"></i> Dashboard</a>
               </li>
             </ul>
           </div>
@@ -39,14 +39,19 @@
       </div>
     </div>
     <div class="container-fluid">
-      <div class="span3">
-        {% block sidebar %}{% endblock %}
+        <div class="row-fluid">
+          <div class="span3">
+            {% block sidebar %}{% endblock %}
+          </div>
+          <div class="span8">
+            {% block content %}{% endblock %}
+          </div>
       </div>
-      <div class="span8">
-        {% block content %}{% endblock %}
-      </div>
+      <br/>
       <div class="row">
+        <div class="well">
         {% block footer %}{% endblock %}
+        </div>
       </div>
     </div>
     <script type="text/javascript" src="/static/js/json2.js"></script>

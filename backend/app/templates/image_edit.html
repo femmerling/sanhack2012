@@ -1,26 +1,25 @@
-<!doctype html>
-<html>	<head><title>Edit Image Entries</title></head>
-	<body>
-		<h1>Edit Image Entries.</h1>
+{% extends "base.html" %}
+    {% block title %}Image Entries{% endblock %}
+    {% block content %}
+		<h1>Edit Image Entries</h1>
 		<form name="image_add" method="post" action="/image/update/{{ image_item.id }}">
 		<table>
 				<tr>
-					<td>Toilet_Id:</td>
+					<td>Toilet ID:</td>
 					<td><input type="text" name="toilet_id" value="{{ image_item.toilet_id }}"/></td>
 				</tr>
 				<tr>
-					<td>User_Id:</td>
+					<td>User ID:</td>
 					<td><input type="text" name="user_id" value="{{ image_item.user_id }}"/></td>
 				</tr>
 				<tr>
-					<td>Added_On:</td>
+					<td>Added on:</td>
 					<td><input type="text" name="added_on" value="{{ image_item.added_on }}"/></td>
 				</tr>
 				<tr>
-					<td><input type="submit" name="submit" value="Edit Entry"/></td>
+					<td><input class="btn" type="submit" name="submit" value="Edit Entry"/></td>
 					<td> </td>
 				</tr>
 		</table>
 		</form>
-	</body>
-</html>
+	{% endblock %}
