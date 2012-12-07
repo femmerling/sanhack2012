@@ -3,8 +3,6 @@ from app import db
 class Toilet(db.Model):
 	toilet_id = db.Column(db.BigInteger, primary_key=True)
 	toilet_name = db.Column(db.String(50), default="")
-	#toilet_lat = db.Column(db.String(50), default="")
-	#toilet_long = db.Column(db.String(50),default="")
 	toilet_lat = db.Column(db.Float, default=1.0)
 	toilet_long = db.Column(db.Float,default=1.0)
 	toilet_address = db.Column(db.String(100),default="")
@@ -14,8 +12,6 @@ class Toilet(db.Model):
 	user_id = db.Column(db.BigInteger,default=1)
 	facility = db.relationship('Facility', backref='toilet', lazy='dynamic')
 	image = db.relationship('Image', backref='toilet', lazy='dynamic')
-	#old_toilet_lat = db.Column(db.String(50), default = "")
-	#old_toilet_long = db.Column(db.String(50), default = "")
 
 	# data transfer object to form JSON
 	def dto(self):
