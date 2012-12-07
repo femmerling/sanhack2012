@@ -78,7 +78,7 @@ class Rating(db.Model):
 				toilet_id = self.toilet_id,
 				user_id = self.user_id,
 				overall_rating = self.overall_rating,
-				rated_on = self.rated_on)
+				rated_on = self.rated_on.isoformat())
 
 class Image(db.Model):
 	image_id = db.Column(db.BigInteger, primary_key=True)

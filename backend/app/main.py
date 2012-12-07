@@ -469,6 +469,12 @@ def rating_create_data_controller(toilet_id,user_id,overall_rating):
 	result = str(avg[0])
 	return result
 
+@app.route('/rating/latest/<toilet_id>/<number_of_ratings>',methods=['POST','GET'])
+def get_latest_amount_of_toilet_ratings(toilet_id,number_of_ratings):
+	rating_list = Rating.query.filter(Rating.toilet_id == toilet_id).order_by(sqlalchemy.desc(Rating.rated_on)).limit(number_of_ratings)
+	json_result = json.dumps([rating.dto() for rating in rating_list])
+	return json_result
+
 ########### image data model controllers area ###########
 
 @app.route('/data/image/')
