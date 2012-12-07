@@ -88,6 +88,38 @@ def search_toilet(latlong_string):
 	result = json.dumps(dict(toilets=toilets))
 	return result
 
+@app.route('/tmpsearch/<latlong_string>')
+def temp_search_toilet(latlong_string):
+	toilets = []
+	latlong = latlong_string.split(',')
+	lat_top_limit = float(latlong[0]) + 0.014564
+	lat_low_limit = float(latlong[0]) - 0.167469
+	long_top_limit = float(latlong[1]) + 0.014483
+	long_low_limit = float(latlong[1]) - 0.014483
+	logging.error('#######')
+	toilet_list = Toilet.query.filter(Toilet.toilet_lat <= lat_top_limit, Toilet.toilet_lat >= lat_low_limit, Toilet.toilet_long <= long_top_limit, Toilet.toilet_long >= long_low_limit ).all()
+	for i, toilet in enumerate(toilet_list):
+		toilet_detail = {}
+		db_pair = [toilet.toilet_lat,toilet.toilet_long]
+		logging.error(db_pair)
+		logging.error(latlong)
+		delta = distance(latlong,db_pair)
+		logging.error(delta)
+		toilet_detail['toilet_id'] = toilet.toilet_id
+		toilet_detail['toilet_name'] = toilet.toilet_name
+		toilet_detail['toilet_lat'] = toilet.toilet_lat
+		toilet_detail['toilet_long'] = toilet.toilet_long
+		toilet_detail['toilet_address'] = toilet.toilet_address
+		toilet_detail['toilet_current_rating'] = toilet.toilet_current_rating
+		toilet_detail['toilet_type'] = toilet.toilet_type
+		toilet_detail['added_on'] = toilet.added_on.isoformat()
+		toilet_detail['user_id'] = toilet.user_id
+		toilet_detail['distance'] = int(math.floor(delta*100))
+		toilets.append(toilet_detail)
+	toilets = multikeysort(toilets, ['distance', '-toilet_current_rating'])
+	result = json.dumps(dict(toilets=toilets))
+	return result
+
 
 @app.route('/data/toilet/')
 def data_toilet():
@@ -579,3 +611,23 @@ def dashboard_controller():
 	statistics = dict(toilet_avg=average_toilet_rating[0],toilet_total=total_toilet_amount[0],max_rating=max_toilet_rating[0],min_rating = min_toilet_rating[0],total_user=total_users[0],total_rating = total_rating[0])
 	toilets=[toilet.dto() for toilet in toilet_list]
 	return render_template('dashboard.html',statistics=statistics,toilets=toilets)
+
+@app.route('/migrate/temp')
+def migrate_temp():
+	all_toilet = Toilet.query.all()
+	for toilet in all_toilet:
+		toilet.old_toilet_lat = toilet.toilet_old_lat
+		toilet.old_toilet_long = toilet.toilet_old_long
+		db.session.add(toilet)
+	db.session.commit()
+	return 'process_done'
+
+@app.route('/migrate/temp2')
+def migrate_temp():
+	all_toilet = Toilet.query.all()
+	for toilet in all_toilet:
+		toilet.toilet_lat = float(toilet.old_toilet_lat)
+		toilet.toilet_long = float(toilet.old_toilet_long)
+		db.session.add(toilet)
+	db.session.commit()
+	return 'finalization_done'
