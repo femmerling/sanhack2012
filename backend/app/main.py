@@ -219,7 +219,6 @@ def toilet_update_data_controller(id):
 	toilet_address = request.values.get('toilet_address')
 	toilet_current_rating = request.values.get('toilet_current_rating')
 	toilet_type = request.values.get('toilet_type')
-	added_on = request.values.get('added_on')
 	user_id = request.values.get('user_id')
 	toilet_item = Toilet.query.filter(Toilet.toilet_id == id).first()
 	toilet_item.toilet_name = toilet_name
@@ -228,13 +227,13 @@ def toilet_update_data_controller(id):
 	toilet_item.toilet_address = toilet_address
 	toilet_item.toilet_current_rating = toilet_current_rating
 	toilet_item.toilet_type = toilet_type
-	toilet_item.added_on = added_on
 	toilet_item.user_id = user_id
 
 	db.session.add(toilet_item)
 	db.session.commit()
 
-	return 'data update successful <a href="/toilet/">back to Entries</a>'
+	return redirect(url_for('toilet_view_controller'))
+	#return 'data update successful <a href="/toilet/">back to Entries</a>'
 
 @app.route('/toilet/delete/<id>')
 def toilet_delete_controller(id):

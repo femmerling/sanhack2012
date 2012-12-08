@@ -1,15 +1,15 @@
 {% extends "base.html" %}
     {% block title %}User Entries{% endblock %}
     {% block content %}
-		<h1>Edit User Entries.</h1>
-		<form name="user_add" method="post" action="/user/update/{{ user_item.id }}">
+		<h1>Edit User</h1>
+		<form name="user_add" method="post" action="/user/update/{{ user_item.user_id }}">
 		<table>
 				<tr>
-					<td>First_Name:</td>
+					<td>First name:</td>
 					<td><input type="text" name="first_name" value="{{ user_item.first_name }}"/></td>
 				</tr>
 				<tr>
-					<td>Last_Name:</td>
+					<td>Last name:</td>
 					<td><input type="text" name="last_name" value="{{ user_item.last_name }}"/></td>
 				</tr>
 				<tr>
@@ -17,16 +17,20 @@
 					<td><input type="text" name="email" value="{{ user_item.email }}"/></td>
 				</tr>
 				<tr>
-					<td>Password:</td>
-					<td><input type="password" name="password" value="{{ user_item.password }}"/></td>
+					<td>Password (leave empty to unchange):</td>
+					<td><input type="password" name="password" value=""/></td>
+				</tr>
+                <tr>
+					<td>Confirm Password:</td>
+					<td><input type="password" name="password2" value=""/></td>
 				</tr>
 				<tr>
-					<td>Registered_On:</td>
-					<td><input type="text" name="registered_on" value="{{ user_item.registered_on }}"/></td>
+					<td>Registered on:</td>
+					<td>{{ user_item.registered_on }}</td>
 				</tr>
 				<tr>
-					<td><input class="btn" type="submit" name="submit" value="Edit Entry"/></td>
-					<td> </td>
+					<td></td>
+					<td><input class="btn btn-primary" type="submit" name="submit" value="Update"/></td>
 				</tr>
 		</table>
 		</form>

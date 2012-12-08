@@ -1,14 +1,13 @@
 {% extends "base.html" %}
     {% block title %}Toilet Entries{% endblock %}
     {% block content %}
-		<h1>List of Toilet Entries.</h1>
+		<h1>List of Toilet Entries</h1>
         {% if toilet_entries %}
 		<table class="table table-bordered" >
 			<thead>
 				<tr>
 					<th>Name</th>
-					<th>Latitude</th>
-					<th>Longitude</th>
+					<th>Geo Location</th>
 					<th>Address</th>
 					<th>Rating</th>
 					<th>Added On</th>
@@ -22,15 +21,14 @@
 			{% for entry in toilet_entries %}
 				<tr>
 					<td><a href="/toilet/{{ entry.toilet_id }}">{{ entry.toilet_name }}</a></td>
-					<td>{{ entry.toilet_lat }}</td>
-					<td>{{ entry.toilet_long }}</td>
+					<td><div class="geo"><span class="latitude">{{ entry.toilet_lat }}</span> <span class="longitude">{{ entry.toilet_long }}</span></div></td>
 					<td>{{ entry.toilet_address }}</td>
 					<td>{{ entry.toilet_current_rating }}</td>
 					<td>{{ entry.added_on }}</td>
                     
                     {% if entry.toilet_type==0 %}
 					<td>Female</td>
-                    {% elif entry.toilet_type==0 %}
+                    {% elif entry.toilet_type==1 %}
                     <td>Male</td>
                     {% else %}
                     <td>General</td>

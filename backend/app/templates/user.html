@@ -6,24 +6,22 @@
 		<table class="table table-bordered">
 			<thead>
 				<tr>
-					<th>ID</th>
-					<th>First_Name</th>
-					<th>Last_Name</th>
+					<th>First name</th>
+					<th>Last name</th>
 					<th>Email</th>
-					<th>Registered_On</th>
+					<th>Registered on</th>
 					<th colspan="2">&nbsp;</th>
 				</tr>
 			</thead>
 			<tbody>
 			{% for entry in user_entries %}
 				<tr>
-					<td>{{ entry.id }}</td>
-					<td>{{ entry.first_name }}</td>
+					<td><a href="/user/{{ entry.user_id }}">{{ entry.first_name }}</a></td>
 					<td>{{ entry.last_name }}</td>
 					<td>{{ entry.email }}</td>
 					<td>{{ entry.registered_on }}</td>
-					<td><a class="btn" href="/user/edit/{{ entry.id }}">Edit</a></td>
-					<td><a class="btn" href="/user/delete/{{ entry.id }}">Delete</a></td>
+					<td><a class="btn" href="/user/edit/{{ entry.user_id }}">Edit</a></td>
+					<td><a class="btn" href="/user/delete/{{ entry.user_id }}">Delete</a></td>
 				</tr>
 			{% endfor %}
 			</tbody>

@@ -28,19 +28,19 @@
 					<td>Toilet Type:</td>
 					<td>
 						<select name="toilet_type">
-							<option value="0">Female</option>
-							<option value="1">Male</option>
-							<option value="2">General</option>
+							<option value="0" {% if toilet_item.toilet_type == 0 %}selected{% endif %}>Female</option>
+							<option value="1" {% if toilet_item.toilet_type == 1 %}selected{% endif %}>Male</option>
+							<option value="2" {% if toilet_item.toilet_type == 2 %}selected{% endif %}>General</option>
 						</select>
 					</td>
 				</tr>
 				<tr>
-					<td>User ID:</td>
-					<td><input type="text" name="user_id" value="{{ toilet_item.user_id }}"/></td>
+					<td>Creator:</td>
+					<td><input type="hidden" name="user_id" value="{{ toilet_item.user_id }}"/>{{ toilet_item.user_id }}</td>
 				</tr>
 				<tr>
+					<td></td>
 					<td><input class="btn" type="submit" name="submit" value="Edit Entry"/></td>
-					<td> </td>
 				</tr>
 		</table>
 		</form>
