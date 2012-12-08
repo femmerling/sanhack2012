@@ -51,22 +51,11 @@
             
             toiletIcon = "/static/img/toilet.png";
             
-            function success(position) {
-            
-                   directionsDisplay = new google.maps.DirectionsRenderer();
-              var s = document.querySelector('#status');
-              
-              if (s.className == 'success') {
-                // not sure why we're hitting this twice in FF, I think it's to do with a cached result coming back    
-                return;
-              }
-              
-              lat = position.coords.latitude;
-              lon = position.coords.longitude;
-              
-              s.innerHTML = "found you!";
-              s.className = 'success';
-              
+            function setup_map(la,lo,accuracy){
+              directionsDisplay = new google.maps.DirectionsRenderer();
+              lat = la;
+              lon = lo;
+
               var mapcanvas = document.createElement('div');
               mapcanvas.id = 'mapcanvas';
               mapcanvas.style.height = '400px';
@@ -74,7 +63,7 @@
                 
               document.querySelector('article').appendChild(mapcanvas);
               
-              var latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+              var latlng = new google.maps.LatLng(lat, lon);
               var myOptions = {
                 zoom: 15,
                 center: latlng,
@@ -82,16 +71,17 @@
                 navigationControlOptions: {style: google.maps.NavigationControlStyle.SMALL},
                 mapTypeId: google.maps.MapTypeId.ROADMAP
               };
+              
               map = new google.maps.Map(document.getElementById("mapcanvas"), myOptions);
               directionsDisplay.setMap(map);
               
               var marker = new google.maps.Marker({
                   position: latlng, 
                   map: map, 
-                  title:"You are here! (at least within a "+position.coords.accuracy+" meter radius)"
+                  title:"You are here! (at least within a "+accuracy+" meter radius)"
               });
               
-              $.getJSON('/search/'+position.coords.latitude+","+position.coords.longitude, function(data){
+              $.getJSON('/search/'+lat+","+lon, function(data){
                     viewmodel.toilets(data.toilets)
                     
                     for (var i = 0; i < data.toilets.length; i++) {
@@ -104,14 +94,31 @@
                           title:toilet.toilet_name
                       });
                     }
-              })
+              })  
+            }
+            
+            function success(position) {
+              var s = document.querySelector('#status');
+              
+              if (s.className == 'success') {
+                // not sure why we're hitting this twice in FF, I think it's to do with a cached result coming back    
+                return;
+              }
+              
+              s.innerHTML = "found you!";
+              s.className = 'success';
+              
+              setup_map(position.coords.latitude, position.coords.longitude, position.coords.accuracy)
             }
 
             function error(msg) {
               var s = document.querySelector('#status');
-              s.innerHTML = typeof msg == 'string' ? msg : "failed";
+              
+              s.innerHTML = typeof msg == 'string' ? msg : "failed, fallback to default position";
               s.className = 'fail';
               
+              //set default position to -6.36519,106.82973
+              setup_map(-6.36519, 106.82973, 200)
               // console.log(arguments);
             }
             
